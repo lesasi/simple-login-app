@@ -1,0 +1,58 @@
+.login-page input{
+    width: 100%;
+}
+
+
+
+.login-form {
+    display: block;
+}
+
+.main-content {
+    margin: auto;
+    width: 50%;
+    margin-top: 10%;
+    border: 2px solid blue;
+    padding: 3%;
+}
+
+
+.login-input {
+    margin-bottom: 5%;
+}
+
+.bottom-line {
+    display: flex;
+    justify-content: space-between;
+}
+
+.title-button {
+    border-radius: 10%;
+    height:fit-content;
+    width:fit-content;
+    font-weight: 700;
+    padding: 1%;
+}
+
+.titlebar {
+    display: flex;
+    justify-content: space-between;
+}
+
+.edit-user {
+    background-color: lightblue;
+    border: 1px solid green;
+    width: 100%;
+    padding: 5%;
+}
+
+.logout {
+    background-color: rgb(247, 165, 144);
+    border: 1px solid red;
+    cursor: pointer;
+}
+
+.link {
+    text-decoration: none;
+    color: inherit;
+}
