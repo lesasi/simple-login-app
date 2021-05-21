@@ -59,7 +59,7 @@ const EditUser = () => {
 
     return(
         <div className="edit-user-page">
-            <h2>Edit User</h2>
+            <h2>Edit User Details</h2>
             <form 
                 className="login-form"
             >   
