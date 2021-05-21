@@ -3,7 +3,6 @@
 }
 
 
-
 .login-form {
     display: block;
 }
@@ -55,4 +54,9 @@
 .link {
     text-decoration: none;
     color: inherit;
+}
+
+.edit-user-page input {
+    margin-left: 2%;
+    margin-right: 2%;
 }

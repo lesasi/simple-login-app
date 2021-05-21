@@ -35,6 +35,12 @@ const user = (state = initialState, action = {}) => {
                 loading: false
             }
         }
+        case 'EDIT_USER': {
+            return {
+                ...state,
+                ...action.payload.data
+            };
+        }
         default: {
             return state;
         }

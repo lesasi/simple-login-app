@@ -77,7 +77,7 @@ userSchema.methods.generateAuthToken = async function() {
         await this.save();
         return token_string;
     }catch(error){
-        throw new Error('Error in generating token');
+        throw new Error(error.message);
     }
 }
 
@@ -90,6 +90,10 @@ userSchema.methods.toJSON = function () {
     return user;
 }
 
+userSchema.methods.isPasswordMatching = async function (password) {
+    const match = await bcrypt.compare(password, this.password);
+    return match;
+}
 
 const User = mongoose.model('User', userSchema);
 

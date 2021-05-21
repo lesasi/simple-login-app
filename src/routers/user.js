@@ -24,10 +24,38 @@ router.post('/new-user', async (req, res) => {
 
 // get current user details(using token)
 router.get('/users/me', auth, async (req, res) => {
-    if(!req.user){
-        res.status(400).send({error: error.message});
-    }
     res.send(req.user);
+}); 
+
+// edit user
+router.post('/users/me/edit', auth, async (req, res) => {
+    const allowedUpdates = ['email', 'age', 'name', 'old_password', 'password'];
+    const user = req.user;
+    const updatesArr = Object.keys(req.body);
+    try {
+        // check if password is being updated, then old password should be as well
+        if(updatesArr.includes('password') && !updatesArr.includes('old_password')) {
+            throw new Error(`Current password not provided!`)
+        }
+        for(let i =0; i < updatesArr.length; i++) {
+            const key = updatesArr[i];
+            if(!allowedUpdates.includes(key)) {
+                throw new Error(`Key [${key}] not allowed!`);
+            }
+            if(key === 'old_password') {
+                const match = await user.isPasswordMatching(req.body[key]);
+                if(!match) {
+                    throw new Error('Incorrect password!')
+                }
+                continue;
+            }
+            user[key] = req.body[key];
+        };
+        await user.save();
+        res.send(user);
+    } catch (error) {
+        res.status(403).send({error: error.message});
+    }
 }); 
 
 // login using email and password
