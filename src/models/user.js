@@ -3,6 +3,8 @@ const validator = require("validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
+const generateErrMessage = require('../util/generateErrMessage');
+
 // user schema 
 const userSchema = new mongoose.Schema({
     name: {
@@ -60,11 +62,11 @@ userSchema.pre('save', async function(next){
 userSchema.statics.findUserByCredentials = async ({ email, password }) => {
     const user = await User.findOne({ email });
     if(!user){
-        throw new Error('Not able to find user');
+        throw new Error(generateErrMessage('username', 'Username not found!'));
     }
     const match = await bcrypt.compare(password, user.password);
     if(!match){
-        throw new Error('Passwords don\'t match!');
+        throw new Error(generateErrMessage('password', 'Incorrect password!'));
     }
     return user;
 }

@@ -5,11 +5,31 @@ import { Link } from 'react-router-dom';
 
 import login from '../actions/login';
 import { history } from '../routers';
+import CustomInput from './sub_components/CustomInput';
 
 const LoginPage = () => {
-    const [username, setUsername] = useState('elena@gmail.com');
+    const [username, setUsername] = useState('nevinusa@gmail.com');
     const [password, setPassword] = useState('test1234');
-    
+    const [errorMsg, setErrorMsg] = useState({
+        username: '',
+        password: ''
+    });
+
+    const setErrorMsgDefault = () => {
+        setErrorMsg(prevState => ({
+            ...prevState,
+            username: '',
+            password: ''
+        }));
+    }
+
+    const updateErrorMsg = (key, message) => {
+        setErrorMsg(prevState => ({
+            ...prevState,
+            [key]: message
+        }));
+    }
+
     const dispatch = useDispatch();
     
     const reduxStates = useSelector((state) => {
@@ -21,20 +41,22 @@ const LoginPage = () => {
     const onSubmit = async (e) => {
         e.preventDefault();
         const { data, error } = await login(username, password);
+        console.log(error)
+        setErrorMsgDefault();
         if(error) {
-            console.log(error);
+            const errorDesc = JSON.parse(error.error);
+            updateErrorMsg(errorDesc['key'], errorDesc['message']);
         }
         else if(data){
-            console.log(data);
             dispatch({
-                type: 'LOGIN',
+                type: 'INIT_USER',
                 payload: {
                     user: data.user
                 }
             });
         }
-        setUsername('');
-        setPassword('');
+        // setUsername('');
+        // setPassword('');
     }
 
     if(reduxStates.user.logged_in){
@@ -48,26 +70,24 @@ const LoginPage = () => {
                 className="login-form"
                 onSubmit={onSubmit}
             >   
-                <div className='login-input'>
-                    <input 
-                        type="text" 
-                        placeholder="Email" 
-                        id="email" 
-                        required
-                        onChange={(e) => setUsername(e.target.value)}
-                        value={username}
-                    />
-                </div>
-                <div className='login-input'>
-                    <input 
-                        type="password" 
-                        placeholder="Password" 
-                        id="password"
-                        required
-                        onChange={(e) => setPassword(e.target.value)}
-                        value={password}
-                    />
-                </div>
+                <CustomInput 
+                    type="text" 
+                    placeholder="Email" 
+                    id="email" 
+                    required
+                    setValue={setUsername}
+                    value={username}
+                    error_message={errorMsg['username']}
+                />
+                <CustomInput 
+                    type="password" 
+                    placeholder="Password" 
+                    id="password"
+                    required
+                    setValue={setPassword}
+                    value={password}
+                    error_message={errorMsg['password']}
+                />
                 <div className="bottom-line">
                     <button type="submit">Submit</button>
                     <Link to = '/create-user' className="signup">

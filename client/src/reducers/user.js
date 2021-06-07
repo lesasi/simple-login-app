@@ -5,13 +5,6 @@ const initialState = {
 
 const user = (state = initialState, action = {}) => {
     switch(action.type) {
-        case 'LOGIN': {
-            return {
-                ...state,
-                logged_in: true,
-                ...action.payload.user
-            };
-        }
         case 'LOGOUT': {
             return initialState;
         }
@@ -19,8 +12,7 @@ const user = (state = initialState, action = {}) => {
             return {
                 ...state,
                 logged_in: true,
-                loading: false,
-                ...action.payload
+                ...action.payload.user
             }
         }
         case 'LOADING': {

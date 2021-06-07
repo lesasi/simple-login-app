@@ -24,7 +24,7 @@ router.post('/new-user', async (req, res) => {
 
 // get current user details(using token)
 router.get('/users/me', auth, async (req, res) => {
-    res.send(req.user);
+    res.send({ user: req.user });
 }); 
 
 // edit user

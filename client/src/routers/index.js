@@ -15,9 +15,9 @@ const AppRouter = () => {
         <Router history={history}>
             <div className='main-content'>
                 <CustomRoute path="/" exact component={HomePage}/>
-                <CustomRoute is_public path="/login" exact component={LoginPage} />
-                <CustomRoute path="/create-user" exact component={CreateUser} />
                 <CustomRoute path="/edit-user" exact component={EditUser} />
+                <CustomRoute is_public path="/login" exact component={LoginPage} />
+                <CustomRoute is_public path="/create-user" exact component={CreateUser} />
             </div>
         </Router>
     );
