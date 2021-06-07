@@ -10,7 +10,7 @@ const app = express();
 const port = process.env.PORT;
 
 app.use(express.json());
-app.use(cors({ credentials: true, origin: `http://localhost:${port}` }));
+app.use(cors({ credentials: true, origin: `http://localhost:3000` }));
 app.use(cookieParser());
 
 // for deployment
