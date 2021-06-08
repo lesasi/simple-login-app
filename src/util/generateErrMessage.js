@@ -13,7 +13,6 @@ const handleEdgeCases = (message, key="") => {
 const generateErrMessage = (err_message) => {
     for(const key of key_list) {
         const lower_message = err_message.toLowerCase();
-        console.log(lower_message, key)
         if(lower_message.includes(key)) {
             if(err_message.includes('Custom')) {
                 const message = err_message.replace('Custom:', '');
