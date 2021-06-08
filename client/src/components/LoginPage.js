@@ -72,8 +72,8 @@ const LoginPage = () => {
             >   
                 <CustomInput 
                     type="text" 
-                    placeholder="Email" 
-                    id="email" 
+                    placeholder="Username" 
+                    id="username" 
                     required
                     setValue={setUsername}
                     value={username}

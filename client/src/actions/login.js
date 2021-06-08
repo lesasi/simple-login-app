@@ -1,9 +1,9 @@
 import { axiosObj } from '../utils/axios';
 
-const login = async (email, password) => {
+const login = async (username, password) => {
     try{
         const response = await axiosObj.post('/login', {
-            email,
+            username,
             password
         });
         return { data: response.data } ;

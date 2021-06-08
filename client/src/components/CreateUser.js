@@ -6,7 +6,7 @@ import createUser from '../actions/createUser';
 import { history } from '../routers';
 
 const CreateUser = () => {
-    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [age, setAge] = useState('');
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
@@ -17,14 +17,14 @@ const CreateUser = () => {
         e.preventDefault();
 
         const { data, error } = await createUser({
-            email,
+            username,
             age,
             name,
             password
         });
         if(error) {
             console.log(error);
-            setEmail('');
+            setUsername('');
             setName('');
             setPassword('');
             setAge('');
@@ -51,11 +51,11 @@ const CreateUser = () => {
                 <div className='login-input'>
                     <input 
                         type="text" 
-                        placeholder="Email" 
-                        id="email" 
+                        placeholder="Username" 
+                        id="username" 
                         required
-                        onChange={(e) => setEmail(e.target.value)}
-                        value={email}
+                        onChange={(e) => setUsername(e.target.value)}
+                        value={username}
                     />
                 </div>
                 <div className='login-input'>

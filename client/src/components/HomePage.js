@@ -53,7 +53,7 @@ const HomePage = () => {
             <div className="user-details">
                 <h1>User Details</h1>
                 <p>Name: {reduxStates.user.name}</p>
-                <p>Email: {reduxStates.user.email}</p>
+                <p>Username: {reduxStates.user.username}</p>
                 <p>Age: {reduxStates.user.age}</p>
             </div>
         </div>

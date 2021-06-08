@@ -15,7 +15,7 @@ const EditUser = () => {
 
     const dispatch = useDispatch();
 
-    const [email, setEmail] = useState(reduxStates.user.email);
+    const [username, setUsername] = useState(reduxStates.user.username);
     const [age, setAge] = useState(reduxStates.user.age);
     const [name, setName] = useState(reduxStates.user.name);
     const [oldPassword, setOldPassword] = useState('');
@@ -31,7 +31,7 @@ const EditUser = () => {
         e.preventDefault();
 
         let payload = {
-            email,
+            username,
             age,
             name
         };
@@ -64,14 +64,14 @@ const EditUser = () => {
                 className="login-form"
             >   
                 <div className='login-input'>
-                    <label htmlFor="email">Email</label>
+                    <label htmlFor="username">Username</label>
                     <input 
                         type="text" 
-                        placeholder="Email" 
-                        id="email" 
+                        placeholder="Username" 
+                        id="username" 
                         required
-                        onChange={(e) => setEmail(e.target.value)}
-                        value={email}
+                        onChange={(e) => setUsername(e.target.value)}
+                        value={username}
                     />
                 </div>
                 <div className='login-input'>
