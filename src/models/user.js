@@ -62,11 +62,11 @@ userSchema.pre('save', async function(next){
 userSchema.statics.findUserByCredentials = async ({ email, password }) => {
     const user = await User.findOne({ email });
     if(!user){
-        throw new Error(generateErrMessage('username', 'Username not found!'));
+        throw new Error('Custom:Username not found!');
     }
     const match = await bcrypt.compare(password, user.password);
     if(!match){
-        throw new Error(generateErrMessage('password', 'Incorrect password!'));
+        throw new Error('Custom:Incorrect password!');
     }
     return user;
 }

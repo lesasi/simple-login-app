@@ -2,7 +2,8 @@ const express = require('express');
 
 const User = require('../models/user');
 const auth = require('../middleware/auth');
-
+const generateErrMessage = require('../util/generateErrMessage');
+ 
 const router = express.Router();
 
 
@@ -18,7 +19,7 @@ router.post('/new-user', async (req, res) => {
             res.status(201).send({ user });
         }
     }catch(error){
-        res.status(400).send({error: error.message});
+        res.status(400).send({ error: generateErrMessage(error.message) });
     }
 });
 
@@ -35,7 +36,7 @@ router.post('/users/me/edit', auth, async (req, res) => {
     try {
         // check if password is being updated, then old password should be as well
         if(updatesArr.includes('password') && !updatesArr.includes('old_password')) {
-            throw new Error(`Current password not provided!`)
+            throw new Error(`Custom:Current password not provided!`)
         }
         for(let i =0; i < updatesArr.length; i++) {
             const key = updatesArr[i];
@@ -45,7 +46,7 @@ router.post('/users/me/edit', auth, async (req, res) => {
             if(key === 'old_password') {
                 const match = await user.isPasswordMatching(req.body[key]);
                 if(!match) {
-                    throw new Error('Incorrect password!')
+                    throw new Error('Custom:Password isn\'t correct!')
                 }
                 continue;
             }
@@ -54,7 +55,7 @@ router.post('/users/me/edit', auth, async (req, res) => {
         await user.save();
         res.send(user);
     } catch (error) {
-        res.status(403).send({error: error.message});
+        res.status(403).send({error: generateErrMessage(error.message)});
     }
 }); 
 
@@ -71,7 +72,7 @@ router.post('/login', async (req, res) => {
             res.send({ user });
         }
     }catch(error){
-        res.status(400).send({error: error.message});
+        res.status(400).send({error: generateErrMessage(error.message)});
     }
 });
 
