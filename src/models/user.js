@@ -3,10 +3,13 @@ const validator = require("validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-const generateErrMessage = require('../util/generateErrMessage');
-
 // user schema 
 const userSchema = new mongoose.Schema({
+    username: {
+        type: String,
+        required: true,
+        unique: true,
+    },
     name: {
         type: String,
         required: true,
@@ -18,16 +21,6 @@ const userSchema = new mongoose.Schema({
         validate(value){
             if(value < 0){
                 throw new Error('Age can\'t be negative!')
-            }
-        }
-    },
-    email: {
-        type: String,
-        required: true,
-        unique: true,
-        validate(value){
-            if(!validator.isEmail(value)){
-                throw new Error("Email is invalid");
             }
         }
     },
@@ -59,8 +52,8 @@ userSchema.pre('save', async function(next){
 });
 
 // static functions
-userSchema.statics.findUserByCredentials = async ({ email, password }) => {
-    const user = await User.findOne({ email });
+userSchema.statics.findUserByCredentials = async ({ username, password }) => {
+    const user = await User.findOne({ username });
     if(!user){
         throw new Error('Custom:Username not found!');
     }

@@ -30,7 +30,7 @@ router.get('/users/me', auth, async (req, res) => {
 
 // edit user
 router.post('/users/me/edit', auth, async (req, res) => {
-    const allowedUpdates = ['email', 'age', 'name', 'old_password', 'password'];
+    const allowedUpdates = ['username', 'age', 'name', 'old_password', 'password'];
     const user = req.user;
     const updatesArr = Object.keys(req.body);
     try {
@@ -59,7 +59,7 @@ router.post('/users/me/edit', auth, async (req, res) => {
     }
 }); 
 
-// login using email and password
+// login using username and password
 router.post('/login', async (req, res) => {
     try{
         const user = await User.findUserByCredentials(req.body);
