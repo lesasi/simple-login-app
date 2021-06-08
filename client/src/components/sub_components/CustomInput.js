@@ -7,6 +7,8 @@ const CustomInput = ({ value, setValue, error_message, ...rest }) => {
                 <input 
                     onChange={(e) => setValue(e.target.value)}
                     value={value}
+                    className='full'
+                    autoComplete="off"
                     {...rest}
                 />
             </div>

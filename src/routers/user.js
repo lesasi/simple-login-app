@@ -36,7 +36,7 @@ router.post('/users/me/edit', auth, async (req, res) => {
     try {
         // check if password is being updated, then old password should be as well
         if(updatesArr.includes('password') && !updatesArr.includes('old_password')) {
-            throw new Error(`Custom:Current password not provided!`)
+            throw new Error(`Custom:Old_password not provided!`)
         }
         for(let i =0; i < updatesArr.length; i++) {
             const key = updatesArr[i];
@@ -46,7 +46,7 @@ router.post('/users/me/edit', auth, async (req, res) => {
             if(key === 'old_password') {
                 const match = await user.isPasswordMatching(req.body[key]);
                 if(!match) {
-                    throw new Error('Custom:Password isn\'t correct!')
+                    throw new Error('Custom:Old_password isn\'t correct!')
                 }
                 continue;
             }

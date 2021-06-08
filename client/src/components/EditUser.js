@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 import editUser from '../actions/editUser';
 import { history } from '../routers';
+import CustomInput from './sub_components/CustomInput';
 
 const EditUser = () => {
 
@@ -20,6 +21,33 @@ const EditUser = () => {
     const [name, setName] = useState(reduxStates.user.name);
     const [oldPassword, setOldPassword] = useState('');
     const [password, setPassword] = useState('');
+
+    const [errorMsg, setErrorMsg] = useState({
+        username: '',
+        password: '',
+        age: '',
+        name: '',
+        old_password: ''
+    });
+
+    const setErrorMsgDefault = () => {
+        setErrorMsg(prevState => ({
+            ...prevState,
+            username: '',
+            password: '',
+            age: '',
+            name: '',
+            old_password: ''
+        }));
+    }
+
+    const updateErrorMsg = (key, message) => {
+        setErrorMsg(prevState => ({
+            ...prevState,
+            [key]: message
+        }));
+    }
+
     const [disablePassword, setDisablePassword] = useState(true);
 
     const togglePassword = (e) => {
@@ -29,7 +57,8 @@ const EditUser = () => {
 
     const onSubmit = async (e) => {
         e.preventDefault();
-
+        setErrorMsgDefault();
+        
         let payload = {
             username,
             age,
@@ -45,6 +74,9 @@ const EditUser = () => {
         const { data, error } = await editUser(payload);
         if(error) {
             console.log(error);
+            error.error.forEach(errorDesc => {
+                updateErrorMsg(errorDesc['key'], errorDesc['message']);
+            });
             return;
         }
         dispatch({
@@ -63,70 +95,64 @@ const EditUser = () => {
             <form 
                 className="login-form"
             >   
-                <div className='login-input'>
-                    <label htmlFor="username">Username</label>
-                    <input 
-                        type="text" 
-                        placeholder="Username" 
-                        id="username" 
-                        required
-                        onChange={(e) => setUsername(e.target.value)}
-                        value={username}
-                    />
-                </div>
-                <div className='login-input'>
-                    <label htmlFor="name">Name</label>
-                    <input 
-                        type="text" 
-                        placeholder="Name" 
-                        id="name" 
-                        required
-                        onChange={(e) => setName(e.target.value)}
-                        value={name}
-                    />
-                </div>
-                <div className='login-input'>
-                    <label htmlFor="age">Age</label>
-                    <input 
-                        type="text" 
-                        placeholder="Age" 
-                        id="age" 
-                        required
-                        onChange={(e) => setAge(e.target.value)}
-                        value={age}
-                    />
-                </div>
-                <div className='login-input'>
-                    <label htmlFor="old_password">{disablePassword ? 'Password' : 'Current Password'}</label>
-                    <input 
-                        type="password" 
-                        placeholder="Password" 
-                        id="old_password"
-                        required
-                        onChange={(e) => setOldPassword(e.target.value)}
-                        value={oldPassword}
-                        disabled={disablePassword}
-                    />
+                <CustomInput 
+                    type="text" 
+                    placeholder="Username" 
+                    id="username" 
+                    required
+                    setValue={setUsername}
+                    value={username}
+                    error_message={errorMsg['username']}
+                />
+                <CustomInput 
+                    type="text" 
+                    placeholder="Full Name" 
+                    id="name" 
+                    required
+                    setValue={setName}
+                    value={name}
+                    error_message={errorMsg['name']}
+                />
+                <CustomInput 
+                    type="text" 
+                    placeholder="Age" 
+                    id="age" 
+                    required
+                    setValue={setAge}
+                    value={age}
+                    error_message={errorMsg['age']}
+                />
+                <CustomInput 
+                    type="password" 
+                    placeholder="Old Password" 
+                    id="password"
+                    required
+                    disabled={disablePassword}
+                    setValue={setOldPassword}
+                    value={oldPassword}
+                    error_message={errorMsg['old_password']}
+                />
+                <div>
                     <button onClick={togglePassword}>Change Password?</button>
                 </div>
                 { disablePassword ? 
                     null :
-                    (<div className='login-input'>
-                        <label htmlFor="password">New Password</label>
-                        <input 
-                            type="password" 
-                            placeholder="Password" 
-                            id="password"
-                            required
-                            onChange={(e) => setPassword(e.target.value)}
-                            value={password}
-                        />
-                    </div>)
+                    (<CustomInput 
+                        type="password" 
+                        placeholder="New Password" 
+                        id="password"
+                        required
+                        setValue={setPassword}
+                        value={password}
+                        error_message={errorMsg['password']}
+                    />)
                 }
                 <button 
                     type="submit"
                     onClick={onSubmit}
-                >Submit</button>
+                >
+                    Submit
+                </button>
             </form>
         </div>
     );

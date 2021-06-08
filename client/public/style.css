@@ -19,11 +19,15 @@
     width: 50%;
 }
 
+.full {
+    width: 100%;
+}
+
 .error_message {
     color: red;
     font-weight: bold;
     font-size: 70%;
-    margin-left: 3%;
+    margin-left: 5%;
     display: flex;
     align-items: center;
 }

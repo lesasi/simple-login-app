@@ -1,4 +1,4 @@
-const key_list = ['username', 'name', 'age', 'password', ]
+const key_list = ['username', 'name', 'age', 'old_password', 'password']
 
 const handleEdgeCases = (message, key="") => {
     if(message.includes('Cast to Number')) {
@@ -16,24 +16,26 @@ const generateErrMessage = (err_message) => {
         if(lower_message.includes(key)) {
             if(err_message.includes('Custom')) {
                 const message = err_message.replace('Custom:', '');
-                return JSON.stringify({
+                return [{
                     key,
                     message
-                });
+                }];
             } 
             if(err_message.includes('User validation failed')) {
                 const err_list = err_message.replace('User validation failed:', '').split(',');
-                const err_obj = {};
-                err_list.forEach(err => {
+                const err_obj = err_list.map(err => {
                     const splt = err.split(': ');
-                    err_obj[splt[0].replace(' ', '')] = handleEdgeCases(splt[1]);
+                    return {
+                        key: splt[0].replace(' ', ''),
+                        message: handleEdgeCases(splt[1])
+                    };
                 });
-                return JSON.stringify(err_obj);
+                return err_obj;
             }
-            return JSON.stringify({
+            return [{
                 key,
                 message: handleEdgeCases(err_message, key)
-            });
+            }];
         }
     }
     return err_message;

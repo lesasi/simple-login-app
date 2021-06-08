@@ -14,6 +14,7 @@ const LoginPage = () => {
         username: '',
         password: ''
     });
+    const dispatch = useDispatch();
 
     const setErrorMsgDefault = () => {
         setErrorMsg(prevState => ({
@@ -30,7 +31,6 @@ const LoginPage = () => {
         }));
     }
 
-    const dispatch = useDispatch();
     
     const reduxStates = useSelector((state) => {
         return {
@@ -41,11 +41,12 @@ const LoginPage = () => {
     const onSubmit = async (e) => {
         e.preventDefault();
         const { data, error } = await login(username, password);
-        console.log(error)
         setErrorMsgDefault();
+
         if(error) {
-            const errorDesc = JSON.parse(error.error);
-            updateErrorMsg(errorDesc['key'], errorDesc['message']);
+            error.error.forEach(errorDesc => {
+                updateErrorMsg(errorDesc['key'], errorDesc['message']);
+            });
         }
         else if(data){
             dispatch({
@@ -55,6 +56,7 @@ const LoginPage = () => {
                 }
             });
         }
+        // DEV
         // setUsername('');
         // setPassword('');
     }
