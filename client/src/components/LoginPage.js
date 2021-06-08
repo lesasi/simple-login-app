@@ -8,7 +8,7 @@ import { history } from '../routers';
 import CustomInput from './sub_components/CustomInput';
 
 const LoginPage = () => {
-    const [username, setUsername] = useState('nevinusa@gmail.com');
+    const [username, setUsername] = useState('nevinusa');
     const [password, setPassword] = useState('test1234');
     const [errorMsg, setErrorMsg] = useState({
         username: '',

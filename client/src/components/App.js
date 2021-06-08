@@ -7,6 +7,7 @@ import thunk from 'redux-thunk';
 import reducers from '../reducers';
 import getUserDetails from '../actions/getUserDetails';
 import AppRouter, { history } from '../routers';
+import LoadingScreen from './LoadingScreen';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(reducers, composeEnhancers(applyMiddleware(thunk)));
@@ -27,12 +28,20 @@ const App = () => {
                         user: data.user
                     }
                 });
-                setLoading(false);
+            } else if(error) {
+                store.dispatch({
+                    type: 'LOGOUT',
+                });
             }
+            setLoading(false);
         }
         fetchUser();
     }, []);
 
+
+    if(loading) {
+        return <LoadingScreen />;
+    }
 
     return(
         <Provider store={store}>

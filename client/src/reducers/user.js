@@ -1,12 +1,15 @@
 const initialState = {
-    logged_in: false,
+    logged_in: true,
     loading: false
 };
 
 const user = (state = initialState, action = {}) => {
     switch(action.type) {
         case 'LOGOUT': {
-            return initialState;
+            return {
+                ...initialState,
+                logged_in: false
+            };
         }
         case 'INIT_USER': {
             return {
