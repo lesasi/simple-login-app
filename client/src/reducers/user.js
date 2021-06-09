@@ -36,6 +36,12 @@ const user = (state = initialState, action = {}) => {
                 ...action.payload.data
             };
         }
+        case 'SET_GOOGLE_TOKEN': {
+            return {
+                ...state,
+                google_token: action.payload.token
+            }
+        }
         default: {
             return state;
         }

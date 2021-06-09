@@ -3,7 +3,8 @@ const express = require('express');
 const User = require('../models/user');
 const auth = require('../middleware/auth');
 const generateErrMessage = require('../util/generateErrMessage');
- 
+const firebase = require('../util/firebase');
+
 const router = express.Router();
 
 
@@ -71,6 +72,17 @@ router.post('/login', async (req, res) => {
             res.cookie(process.env.AUTH_COOKIE, token);
             res.send({ user });
         }
+    }catch(error){
+        res.status(400).send({error: generateErrMessage(error.message)});
+    }
+});
+
+router.post('/googleLogin', async (req, res) => {
+    try{
+        const token = req.body.token;
+        const result = await firebase.auth().verifyIdToken(token);
+        // const googleId = result.data.uid;
+        res.send({ uid: result.uid })
     }catch(error){
         res.status(400).send({error: generateErrMessage(error.message)});
     }

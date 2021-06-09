@@ -4,6 +4,7 @@ import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
 
 import login from '../actions/login';
+import googleLogin from '../actions/googleLogin';
 import { history } from '../routers';
 import CustomInput from './sub_components/CustomInput';
 
@@ -31,6 +32,9 @@ const LoginPage = () => {
         }));
     }
 
+    const googleLoginSubmit = async () => {
+        dispatch(googleLogin());
+    }
     
     const reduxStates = useSelector((state) => {
         return {
@@ -97,6 +101,9 @@ const LoginPage = () => {
                     </Link>
                 </div>
             </form>
+            <button onClick={googleLoginSubmit}>
+                Google Login
+            </button>
         </div>
     );
 };
