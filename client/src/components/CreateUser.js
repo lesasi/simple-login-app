@@ -12,7 +12,13 @@ const CreateUser = () => {
     const [age, setAge] = useState('');
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
+    
     const dispatch = useDispatch();
+    const reduxStates = useSelector((state) => {
+        return {
+            googleId: state.user.google_token
+        };
+    });  
 
     const [errorMsg, setErrorMsg] = useState({
         username: '',
@@ -53,7 +59,8 @@ const CreateUser = () => {
             username,
             age,
             name,
-            password
+            password,
+            googleId: reduxStates.googleId
         });
         if(error) {
             console.log(error);
@@ -78,6 +85,11 @@ const CreateUser = () => {
     return(
         <div className="create-user">
             <h2>New User</h2>
+            {
+                reduxStates.googleId ? 
+                <p>Add a few more details to complete the signin...</p>
+                :null
+            }
             <form 
                 className="login-form"
                 onSubmit={onSubmit}
@@ -95,7 +107,6 @@ const CreateUser = () => {
                     type="text" 
                     placeholder="Full Name" 
                     id="name" 
-                    required
                     setValue={setName}
                     value={name}
                     error_message={errorMsg['name']}
@@ -104,7 +115,6 @@ const CreateUser = () => {
                     type="text" 
                     placeholder="Age" 
                     id="age" 
-                    required
                     setValue={setAge}
                     value={age}
                     error_message={errorMsg['age']}
@@ -113,7 +123,7 @@ const CreateUser = () => {
                     type="password" 
                     placeholder="Password" 
                     id="password"
-                    required
+                    required={!!reduxStates.googleId}
                     setValue={setPassword}
                     value={password}
                     error_message={errorMsg['password']}

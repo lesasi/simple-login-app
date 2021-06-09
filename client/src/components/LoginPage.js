@@ -15,6 +15,7 @@ const LoginPage = () => {
         username: '',
         password: ''
     });
+    
     const dispatch = useDispatch();
 
     const setErrorMsgDefault = () => {
@@ -33,7 +34,31 @@ const LoginPage = () => {
     }
 
     const googleLoginSubmit = async () => {
-        dispatch(googleLogin());
+        try {
+            const { data, error } = await googleLogin();
+            if(error) {
+                throw new Error(error);
+            }
+            if(data.new_user) {
+                dispatch({
+                    type: 'SET_GOOGLE_TOKEN',
+                    payload: {
+                        token: data.googleId
+                    }
+                });
+                history.push('/create-user');
+            }else {
+                dispatch({
+                    type: 'INIT_USER',
+                    payload: {
+                        user: data.user
+                    }
+                });
+            }         
+        } catch (error) {
+            console.log(error)
+        }
+        
     }
     
     const reduxStates = useSelector((state) => {

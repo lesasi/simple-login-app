@@ -10,8 +10,13 @@ const router = express.Router();
 
 // make new user
 router.post('/new-user', async (req, res) => {
-    const user = new User(req.body);
     try{
+        // conditions - if this is new user as a result of google login, then password
+        // is not necessary - check for googleId variable
+        if(!req.body.googleId && !req.body.password) {
+            throw new Error('Custom:Password not provided!')
+        }
+        const user = new User(req.body);
         const token = await user.generateAuthToken();
         if(req.header('User-Agent').includes('PostmanRuntime')){
             res.status(201).send({ user, token })
@@ -81,8 +86,16 @@ router.post('/googleLogin', async (req, res) => {
     try{
         const token = req.body.token;
         const result = await firebase.auth().verifyIdToken(token);
-        // const googleId = result.data.uid;
-        res.send({ uid: result.uid })
+        const user = await User.findUserByGoogleId(result.uid);
+        // if new user - send id to user(DEV - make this jwt encoded)
+        if(!user) {
+            res.send({ googleId: result.uid, new_user: true });
+            return;
+        }
+        // else, just send the user details to client, along with token(DEV)
+        const auth_token = await user.generateAuthToken();
+        res.cookie(process.env.AUTH_COOKIE, auth_token);
+        res.send({ user })
     }catch(error){
         res.status(400).send({error: generateErrMessage(error.message)});
     }

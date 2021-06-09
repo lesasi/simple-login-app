@@ -12,7 +12,6 @@ const userSchema = new mongoose.Schema({
     },
     name: {
         type: String,
-        required: true,
         trim: true
     },
     age: {
@@ -26,13 +25,16 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true,
         trim: true,
         validate(value){
             if(value.length < 6){
                 throw new Error('Password too short!!');
             }
         }
+    },
+    googleId: {
+        type: String,
+        default: ''
     },
     tokens: [{
         token_string: {
@@ -60,6 +62,14 @@ userSchema.statics.findUserByCredentials = async ({ username, password }) => {
     const match = await bcrypt.compare(password, user.password);
     if(!match){
         throw new Error('Custom:Incorrect password!');
+    }
+    return user;
+}
+
+userSchema.statics.findUserByGoogleId = async(googleId) => {
+    const user = await User.findOne({ googleId });
+    if(!user) {
+        return null;
     }
     return user;
 }
