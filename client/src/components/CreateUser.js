@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import createUser from '../actions/createUser';
+import { createUser } from '../actions/crud-user';
 import { history } from '../routers';
 
 import CustomInput from './sub_components/CustomInput';

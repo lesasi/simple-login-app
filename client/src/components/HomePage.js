@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 
-import getUserDetails from '../actions/getUserDetails';
-import logout from '../actions/logout';
-import deleteUser from '../actions/deleteUser';
+import { logout } from '../actions/auth';
+import { deleteUser } from '../actions/crud-user';
 import { history } from '../routers';
 
 const HomePage = () => {
@@ -32,16 +31,20 @@ const HomePage = () => {
 
     const deleteUserSubmit = async (e) => {
         e.preventDefault();
-        const { data, error } = await deleteUser();
-        if(error){
-            console.log(error);
-            return;
-        }
-        console.log(data)
-        dispatch({
-            type: 'LOGOUT'
-        });
-        history.push('/login')
+        // prompt to ask whether to confirm deletion
+        if(window.confirm('Are you sure you want to delete your account?')) {
+            const { data, error } = await deleteUser();
+            if(error){
+                console.log(error);
+                return;
+            }
+            console.log(data)
+            dispatch({
+                type: 'LOGOUT'
+            });
+            history.push('/login')
+        } 
+        
     }
 
     if(loading){

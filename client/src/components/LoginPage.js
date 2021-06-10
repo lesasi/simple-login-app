@@ -3,8 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
 
-import login from '../actions/login';
-import googleLogin from '../actions/googleLogin';
+import { login } from '../actions/auth';
+import { googleLogin } from '../actions/auth';
 import { history } from '../routers';
 import CustomInput from './sub_components/CustomInput';
 
