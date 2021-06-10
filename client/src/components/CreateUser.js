@@ -123,7 +123,7 @@ const CreateUser = () => {
                     type="password" 
                     placeholder="Password" 
                     id="password"
-                    required={!!reduxStates.googleId}
+                    required={!reduxStates.googleId}
                     setValue={setPassword}
                     value={password}
                     error_message={errorMsg['password']}

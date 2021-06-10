@@ -27,7 +27,6 @@ const EditUser = () => {
         password: '',
         age: '',
         name: '',
-        old_password: ''
     });
 
     const setErrorMsgDefault = () => {
@@ -37,7 +36,6 @@ const EditUser = () => {
             password: '',
             age: '',
             name: '',
-            old_password: ''
         }));
     }
 
@@ -67,7 +65,6 @@ const EditUser = () => {
         if(!disablePassword) {
             payload = {
                 ...payload,
-                old_password: oldPassword,
                 password
             };
         }
@@ -121,16 +118,6 @@ const EditUser = () => {
                     setValue={setAge}
                     value={age}
                     error_message={errorMsg['age']}
-                />
-                <CustomInput 
-                    type="password" 
-                    placeholder="Old Password" 
-                    id="password"
-                    required
-                    disabled={disablePassword}
-                    setValue={setOldPassword}
-                    value={oldPassword}
-                    error_message={errorMsg['old_password']}
                 />
                 <div>
                     <button onClick={togglePassword}>Change Password?</button>

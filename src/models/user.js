@@ -25,16 +25,11 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        trim: true,
-        validate(value){
-            if(value.length < 6){
-                throw new Error('Password too short!!');
-            }
-        }
+        trim: true
     },
     googleId: {
         type: String,
-        default: ''
+        default: null
     },
     tokens: [{
         token_string: {
@@ -48,6 +43,10 @@ const userSchema = new mongoose.Schema({
 // middleware
 userSchema.pre('save', async function(next){
     if(this.isModified('password')){
+        if(this.password === '') {
+            this.password = null;
+            next();
+        }
         this.password = await bcrypt.hash(this.password, 8);
     }
     next();
@@ -58,6 +57,9 @@ userSchema.statics.findUserByCredentials = async ({ username, password }) => {
     const user = await User.findOne({ username });
     if(!user){
         throw new Error('Custom:Username not found!');
+    }
+    if(user.password === null) {
+        throw new Error('Password not set for user, login through google');
     }
     const match = await bcrypt.compare(password, user.password);
     if(!match){

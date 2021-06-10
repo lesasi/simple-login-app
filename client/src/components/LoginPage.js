@@ -114,7 +114,7 @@ const LoginPage = () => {
                     type="password" 
                     placeholder="Password" 
                     id="password"
-                    required
+                    // required
                     setValue={setPassword}
                     value={password}
                     error_message={errorMsg['password']}

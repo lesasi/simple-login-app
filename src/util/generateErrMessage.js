@@ -1,8 +1,8 @@
-const key_list = ['username', 'name', 'age', 'old_password', 'password']
+const key_list = ['username', 'name', 'age', 'password']
 
 const handleEdgeCases = (message, key="") => {
     if(message.includes('Cast to Number')) {
-        return 'Age must be a number!';
+        return `${key} must be a number!`;
     }
     if(message.includes('E11000 duplicate key error')) {
         return `${key} already exists`
@@ -27,7 +27,7 @@ const generateErrMessage = (err_message) => {
                     const splt = err.split(': ');
                     return {
                         key: splt[0].replace(' ', ''),
-                        message: handleEdgeCases(splt[1])
+                        message: handleEdgeCases(splt[1], key)
                     };
                 });
                 return err_obj;

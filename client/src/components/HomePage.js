@@ -4,6 +4,7 @@ import { Link, useHistory } from 'react-router-dom';
 
 import getUserDetails from '../actions/getUserDetails';
 import logout from '../actions/logout';
+import deleteUser from '../actions/deleteUser';
 import { history } from '../routers';
 
 const HomePage = () => {
@@ -29,6 +30,20 @@ const HomePage = () => {
         history.push('/login')
     }
 
+    const deleteUserSubmit = async (e) => {
+        e.preventDefault();
+        const { data, error } = await deleteUser();
+        if(error){
+            console.log(error);
+            return;
+        }
+        console.log(data)
+        dispatch({
+            type: 'LOGOUT'
+        });
+        history.push('/login')
+    }
+
     if(loading){
         return(
             <div>
@@ -36,7 +51,6 @@ const HomePage = () => {
             </div>
         );
     }
-
 
     return(
         <div className='home-page'>
@@ -46,6 +60,12 @@ const HomePage = () => {
                         Edit user
                     </div>
                 </Link>
+                <div 
+                    className="logout title-button link"
+                    onClick={deleteUserSubmit}
+                >
+                    Delete User
+                </div>
                 <div onClick={logoutUser} className="logout title-button">
                     Logout
                 </div>

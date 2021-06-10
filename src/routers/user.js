@@ -36,25 +36,14 @@ router.get('/users/me', auth, async (req, res) => {
 
 // edit user
 router.post('/users/me/edit', auth, async (req, res) => {
-    const allowedUpdates = ['username', 'age', 'name', 'old_password', 'password'];
+    const allowedUpdates = ['username', 'age', 'name', 'password'];
     const user = req.user;
     const updatesArr = Object.keys(req.body);
     try {
-        // check if password is being updated, then old password should be as well
-        if(updatesArr.includes('password') && !updatesArr.includes('old_password')) {
-            throw new Error(`Custom:Old_password not provided!`)
-        }
         for(let i =0; i < updatesArr.length; i++) {
             const key = updatesArr[i];
             if(!allowedUpdates.includes(key)) {
                 throw new Error(`Key [${key}] not allowed!`);
-            }
-            if(key === 'old_password') {
-                const match = await user.isPasswordMatching(req.body[key]);
-                if(!match) {
-                    throw new Error('Custom:Old_password isn\'t correct!')
-                }
-                continue;
             }
             user[key] = req.body[key];
         };
@@ -121,6 +110,19 @@ router.post('/logout/all', auth, async (req, res) => {
     }catch(error){
         res.status(400).send({error: error.message});
     } 
-})
+});
+
+router.post('/users/me/delete', auth, async (req, res) => {
+    try {
+        await req.user.remove();
+        // delete from google auth
+        if(!!req.user.googleId) {
+            await firebase.auth().deleteUser(req.user.googleId);
+        }
+        res.send({ user: req.user });
+    } catch (error) {
+        return res.status(400).send(error);
+    } 
+});
 
 module.exports = router;
