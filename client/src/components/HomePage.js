@@ -68,6 +68,12 @@ const HomePage = () => {
         dispatch({
             type: 'LOGOUT'
         });
+        dispatch({
+            type: 'NEW_MESSAGE',
+            payload: {
+                message: 'Logged out successfully!'
+            }
+        });
         history.push('/login')
     }
 
@@ -77,13 +83,25 @@ const HomePage = () => {
         const { data, error } = await deleteUser();
         if(error){
             console.log(error);
+            dispatch({
+                type: 'NEW_MESSAGE',
+                payload: {
+                    message: 'Unable to delete user!'
+                }
+            });
             return;
         }
         console.log(data)
         dispatch({
             type: 'LOGOUT'
         });
-        history.push('/login')
+        dispatch({
+            type: 'NEW_MESSAGE',
+            payload: {
+                message: 'Deleted user!'
+            }
+        });
+        history.push('/login');
     }
 
     const setGoogleEmailSubmit = async (e) => {
@@ -91,9 +109,21 @@ const HomePage = () => {
         const { data, error } = await setGoogleEmail();
         if(error) {
             console.log(error)
+            dispatch({
+                type: 'NEW_MESSAGE',
+                payload: {
+                    message: 'Google integration failed!'
+                }
+            });
             return;
         }
         console.log(data)
+        dispatch({
+            type: 'NEW_MESSAGE',
+            payload: {
+                message: 'Google integration successful!'
+            }
+        });
     }
 
     return(

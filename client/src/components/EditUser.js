@@ -142,7 +142,7 @@ const EditUser = () => {
                     label="Age" 
                     id="age" 
                     setValue={setAge}
-                    value={age}
+                    value={age||''}
                     error_message={errorMsg['age']}
                 />
                 <Grid container spacing={2}>

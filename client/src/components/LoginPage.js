@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
+import GoogleButton from 'react-google-button'; 
 
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -82,6 +83,12 @@ const LoginPage = () => {
             }         
         } catch (error) {
             console.log(error)
+            dispatch({
+                type: 'NEW_MESSAGE',
+                payload: {
+                    message: 'Google login failed...'
+                }
+            });
         }
         
     }
@@ -101,6 +108,7 @@ const LoginPage = () => {
             error.error.forEach(errorDesc => {
                 updateErrorMsg(errorDesc['key'], errorDesc['message']);
             });
+            console.log(errorMsg)
         }
         else if(data){
             dispatch({
@@ -160,9 +168,11 @@ const LoginPage = () => {
                 </Link>
             </div>
             <div className={classes.mid}>
-                <button onClick={googleLoginSubmit}>
-                    Google Login
-                </button>
+                <GoogleButton
+                    className={classes.half}
+                    onClick={googleLoginSubmit}
+                    label="Login using Google"
+                />
             </div>
         </div>
     );

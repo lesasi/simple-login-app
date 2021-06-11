@@ -8,6 +8,7 @@ import reducers from '../reducers';
 import getUserDetails from '../actions/getUserDetails';
 import AppRouter, { history } from '../routers';
 import LoadingScreen from './LoadingScreen';
+import PopupOverlay from './PopupOverlay';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(reducers, composeEnhancers(applyMiddleware(thunk)));
@@ -45,7 +46,9 @@ const App = () => {
 
     return(
         <Provider store={store}>
-            <AppRouter />
+            <PopupOverlay>
+                <AppRouter />
+            </PopupOverlay>
         </Provider>
     );
 };
