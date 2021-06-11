@@ -19,7 +19,6 @@ const CustomDialog = ({
 }) => {
     const executeAcceptFunction = async (e) => {
         await acceptFunction(e);
-        console.log('dfssds')
         setOpen(false);
     }
     return(

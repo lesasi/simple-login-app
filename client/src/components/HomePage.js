@@ -83,15 +83,6 @@ const HomePage = () => {
             type: 'LOGOUT'
         });
         history.push('/login')
-        
-    }
-
-    if(loading){
-        return(
-            <div>
-                Loading...
-            </div>
-        );
     }
 
     return(
@@ -104,7 +95,7 @@ const HomePage = () => {
                 </Link>
                 <div 
                     className="logout title-button link"
-                    onClick={setOpenDeleteDialog(true)}
+                    onClick={() => setOpenDeleteDialog(true)}
                 >
                     Delete User
                 </div>
@@ -129,7 +120,7 @@ const HomePage = () => {
                 </CardContent>
             </Card>
             <CustomDialog 
-                title='Are you sure?'
+                title='Delete account?'
                 content='Are you sure you want to delete this account? It will be lost forever'
                 denyMessage='No'
                 acceptFunction={deleteUserSubmit}
