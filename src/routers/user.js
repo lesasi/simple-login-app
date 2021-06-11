@@ -84,11 +84,26 @@ router.post('/googleLogin', async (req, res) => {
         // else, just send the user details to client, along with token(DEV)
         const auth_token = await user.generateAuthToken();
         res.cookie(process.env.AUTH_COOKIE, auth_token);
-        res.send({ user })
+        res.send({ user });
     }catch(error){
         res.status(400).send({error: generateErrMessage(error.message)});
     }
 });
+
+// add google token to a user
+router.post('/setGoogleToken', auth, async (req, res) => {
+    try{
+        const token = req.body.token;
+        const result = await firebase.auth().verifyIdToken(token);
+        // set uid to user's googleId
+        req.user.googleId = result.uid;
+        await req.user.save();
+        res.send({ user: req.user })
+    }catch(error){
+        res.status(400).send({error: generateErrMessage(error.message)});
+    }
+});
+
 
 // log out of current account
 router.post('/logout', auth, async (req, res) => {

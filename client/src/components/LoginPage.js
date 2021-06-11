@@ -64,7 +64,6 @@ const LoginPage = () => {
             if(error) {
                 throw new Error(error);
             }
-            console.log('dd')
             if(data.new_user) {
                 dispatch({
                     type: 'SET_GOOGLE_TOKEN',

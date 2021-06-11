@@ -14,6 +14,22 @@ export const googleLogin = async () => {
     }
 };
 
+export const setGoogleEmail = async () => {
+    try {
+        if(auth.currentUser) {
+            return { data: auth.currentUser };
+        }
+        const result = await auth.signInWithPopup(googleProvider);
+        const token = await auth?.currentUser?.getIdToken(true);
+        const response = await axiosObj.post('/setGoogleToken', {
+            token
+        });
+        return { data: response.data }
+    } catch (error) {
+        return { error: error.message }
+    }
+};
+
 export const login = async (username, password) => {
     try{
         const response = await axiosObj.post('/login', {

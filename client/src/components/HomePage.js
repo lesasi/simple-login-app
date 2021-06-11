@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
+import GoogleButton from 'react-google-button'; 
 
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -9,32 +10,31 @@ import CardContent from '@material-ui/core/CardContent';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 
-import { logout } from '../actions/auth';
+import { logout, setGoogleEmail } from '../actions/auth';
 import { deleteUser } from '../actions/crud-user';
 import { history } from '../routers';
 import CustomDialog from './sub_components/CustomDialog';
+import { auth } from '../utils/firebase-config';
 
 const useStyles = makeStyles((theme) => ({
     home: {
         width: '100%'
     },
+    half: {
+        width: '50%',
+    },
     mid: {
         display: 'flex',
-        marginTop: theme.spacing(2),
         marginBottom: theme.spacing(2),
-        justifyContent: 'center'
+        alignItems: 'center',
+        flexDirection: 'column'
     },
     title: {
         fontSize: 14
     },
     pos: {
-        fontSize: 12
+        fontSize: 10
     },
     down: {
         marginBottom: theme.spacing(2)
@@ -49,6 +49,7 @@ const HomePage = () => {
     const classes = useStyles();
 
     const [loading, setLoading] = useState(false);
+    const [disableGoogle, setDisableGoogle] = useState(false);
     const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
 
     const reduxStates = useSelector((state) => {
@@ -85,6 +86,16 @@ const HomePage = () => {
         history.push('/login')
     }
 
+    const setGoogleEmailSubmit = async (e) => {
+        e.preventDefault();
+        const { data, error } = await setGoogleEmail();
+        if(error) {
+            console.log(error)
+            return;
+        }
+        console.log(data)
+    }
+
     return(
         <div className={classes.home}>
             <div className="titlebar">
@@ -118,6 +129,24 @@ const HomePage = () => {
                         Age: {reduxStates.user.age}
                     </Typography>
                 </CardContent>
+                <div className={classes.mid}>
+                    <Typography color="textSecondary" variant="subtitle2" gutterBottom>
+                        Want to connect your google account?
+                    </Typography>
+                    <GoogleButton
+                        className={classes.half}
+                        onClick={setGoogleEmailSubmit}
+                        disabled={!!auth.currentUser}
+                        label={
+                            !!auth.currentUser ? 
+                                'Logged in to Google':
+                                'Sign in to Google'
+                        }
+                    >
+                        Hello
+                    </GoogleButton>
+                </div>
+                
             </Card>
             <CustomDialog 
                 title='Delete account?'
