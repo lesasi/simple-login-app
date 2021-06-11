@@ -1,13 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
+
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 
 import { createUser } from '../actions/crud-user';
 import { history } from '../routers';
 
 import CustomInput from './sub_components/CustomInput';
 
+const useStyles = makeStyles((theme) => ({
+    create: {
+        width: '100%'
+    },
+    mid: {
+        display: 'flex',
+        marginTop: theme.spacing(2),
+        marginBottom: theme.spacing(2),
+        justifyContent: 'center'
+    }
+}));
+
 const CreateUser = () => {
+    const classes = useStyles();
+
     const [username, setUsername] = useState('');
     const [age, setAge] = useState('');
     const [name, setName] = useState('');
@@ -63,7 +82,6 @@ const CreateUser = () => {
             googleId: reduxStates.googleId
         });
         if(error) {
-            console.log(error);
             error.error.forEach(errorDesc => {
                 updateErrorMsg(errorDesc['key'], errorDesc['message']);
             });
@@ -83,8 +101,10 @@ const CreateUser = () => {
     }
 
     return(
-        <div className="create-user">
-            <h2>New User</h2>
+        <div className={classes.create}>
+            <Typography component="h1" variant="h5" className={classes.mid}>
+                New User
+            </Typography>
             {
                 reduxStates.googleId ? 
                 <p>Add a few more details to complete the signin...</p>
@@ -96,7 +116,7 @@ const CreateUser = () => {
             >   
                 <CustomInput 
                     type="text" 
-                    placeholder="Username" 
+                    label="Username" 
                     id="username" 
                     required
                     setValue={setUsername}
@@ -105,7 +125,7 @@ const CreateUser = () => {
                 />
                 <CustomInput 
                     type="text" 
-                    placeholder="Full Name" 
+                    label="Full Name" 
                     id="name" 
                     setValue={setName}
                     value={name}
@@ -113,7 +133,7 @@ const CreateUser = () => {
                 />
                 <CustomInput 
                     type="text" 
-                    placeholder="Age" 
+                    label="Age" 
                     id="age" 
                     setValue={setAge}
                     value={age}
@@ -121,14 +141,21 @@ const CreateUser = () => {
                 />
                 <CustomInput 
                     type="password" 
-                    placeholder="Password" 
+                    label="Password" 
                     id="password"
                     required={!reduxStates.googleId}
                     setValue={setPassword}
                     value={password}
                     error_message={errorMsg['password']}
                 />
-                    <button type="submit">Submit</button>
+                <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                >
+                    Create User
+                </Button>
             </form>
         </div>
     );

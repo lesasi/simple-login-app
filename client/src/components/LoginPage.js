@@ -2,14 +2,39 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
+
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+
 
 import { login } from '../actions/auth';
 import { googleLogin } from '../actions/auth';
 import { history } from '../routers';
 import CustomInput from './sub_components/CustomInput';
 
+const useStyles = makeStyles((theme) => ({
+    login: {
+        width: '100%'
+    },
+    mid: {
+        display: 'flex',
+        marginTop: theme.spacing(2),
+        marginBottom: theme.spacing(2),
+        justifyContent: 'center'
+    },
+    side: {
+        display: 'flex',
+        marginTop: theme.spacing(2),
+        justifyContent: 'flex-end'
+    }
+}));
+
 const LoginPage = () => {
-    const [username, setUsername] = useState('nevinusa');
+    const classes = useStyles();
+
+    const [username, setUsername] = useState('lesasi');
     const [password, setPassword] = useState('test1234');
     const [errorMsg, setErrorMsg] = useState({
         username: '',
@@ -39,6 +64,7 @@ const LoginPage = () => {
             if(error) {
                 throw new Error(error);
             }
+            console.log('dd')
             if(data.new_user) {
                 dispatch({
                     type: 'SET_GOOGLE_TOKEN',
@@ -95,15 +121,17 @@ const LoginPage = () => {
     }
 
     return(
-        <div className="login-page"> 
-            <h2>Login</h2>
+        <div className={classes.login}> 
+            <Typography component="h1" variant="h5" className={classes.mid}>
+                Login
+            </Typography>
             <form 
                 className="login-form"
                 onSubmit={onSubmit}
             >   
                 <CustomInput 
                     type="text" 
-                    placeholder="Username" 
+                    label="Username" 
                     id="username" 
                     required
                     setValue={setUsername}
@@ -112,23 +140,31 @@ const LoginPage = () => {
                 />
                 <CustomInput 
                     type="password" 
-                    placeholder="Password" 
+                    label="Password" 
                     id="password"
-                    // required
                     setValue={setPassword}
                     value={password}
                     error_message={errorMsg['password']}
                 />
-                <div className="bottom-line">
-                    <button type="submit">Submit</button>
-                    <Link to = '/create-user' className="signup">
-                        Sign Up!
-                    </Link>
-                </div>
+                <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                >
+                    Sign In
+                </Button>
             </form>
-            <button onClick={googleLoginSubmit}>
-                Google Login
-            </button>
+            <div className={classes.side}>
+                <Link to = '/create-user' className="signup">
+                    New User? Sign Up!
+                </Link>
+            </div>
+            <div className={classes.mid}>
+                <button onClick={googleLoginSubmit}>
+                    Google Login
+                </button>
+            </div>
         </div>
     );
 };

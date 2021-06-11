@@ -1,10 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch, useStore } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
+
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
 
 import { editUser } from '../actions/crud-user';
 import { history } from '../routers';
 import CustomInput from './sub_components/CustomInput';
+
+const useStyles = makeStyles((theme) => ({
+    edit: {
+        width: '100%'
+    },
+    mid: {
+        display: 'flex',
+        marginTop: theme.spacing(2),
+        marginBottom: theme.spacing(2),
+        justifyContent: 'center'
+    },
+    mid_air: {
+        display: 'flex',
+        alignItems: 'center'
+    },
+    two_third: {
+        width: '66%'
+    }
+}));
 
 const EditUser = () => {
 
@@ -14,6 +39,7 @@ const EditUser = () => {
         };
     });
 
+    const classes = useStyles();
     const dispatch = useDispatch();
 
     const [username, setUsername] = useState(reduxStates.user.username);
@@ -87,14 +113,16 @@ const EditUser = () => {
     }
 
     return(
-        <div className="edit-user-page">
-            <h2>Edit User Details</h2>
+        <div className={classes.edit}>
+            <Typography component="h1" variant="h5" className={classes.mid}>
+                Edit User
+            </Typography>
             <form 
                 className="login-form"
             >   
                 <CustomInput 
                     type="text" 
-                    placeholder="Username" 
+                    label="Username" 
                     id="username" 
                     required
                     setValue={setUsername}
@@ -103,43 +131,55 @@ const EditUser = () => {
                 />
                 <CustomInput 
                     type="text" 
-                    placeholder="Full Name" 
+                    label="Full Name" 
                     id="name" 
-                    required
                     setValue={setName}
                     value={name}
                     error_message={errorMsg['name']}
                 />
                 <CustomInput 
                     type="text" 
-                    placeholder="Age" 
+                    label="Age" 
                     id="age" 
-                    required
                     setValue={setAge}
                     value={age}
                     error_message={errorMsg['age']}
                 />
-                <div>
-                    <button onClick={togglePassword}>Change Password?</button>
-                </div>
-                { disablePassword ? 
-                    null :
-                    (<CustomInput 
-                        type="password" 
-                        placeholder="New Password" 
-                        id="password"
-                        required
-                        setValue={setPassword}
-                        value={password}
-                        error_message={errorMsg['password']}
-                    />)
-                }
-                <button 
+                <Grid container spacing={2}>
+                    <Grid item xs={8}>
+                        <CustomInput 
+                            type="password" 
+                            label="New Password" 
+                            id="password"
+                            required
+                            setValue={setPassword}
+                            value={password}
+                            error_message={errorMsg['password']}
+                            disabled={disablePassword}
+                        />
+                    </Grid>
+                    <Grid item xs={4}>
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            color="secondary"
+                            onClick={togglePassword}
+                            size='small'
+                        >
+                            Change Password?
+                        </Button>
+                    </Grid>
+                </Grid>
+                <Button
                     type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
                     onClick={onSubmit}
                 >
-                    Submit
-                </button>
+                    Save User
+                </Button>
             </form>
         </div>
     );
