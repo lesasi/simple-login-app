@@ -39,7 +39,6 @@ const App = () => {
         fetchUser();
     }, []);
 
-
     if(loading) {
         return <LoadingScreen />;
     }

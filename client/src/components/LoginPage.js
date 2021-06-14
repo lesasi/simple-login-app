@@ -82,7 +82,6 @@ const LoginPage = () => {
                 });
             }         
         } catch (error) {
-            console.log(error)
             dispatch({
                 type: 'NEW_MESSAGE',
                 payload: {
@@ -108,7 +107,6 @@ const LoginPage = () => {
             error.error.forEach(errorDesc => {
                 updateErrorMsg(errorDesc['key'], errorDesc['message']);
             });
-            console.log(errorMsg)
         }
         else if(data){
             dispatch({
