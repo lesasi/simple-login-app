@@ -31,6 +31,7 @@ const App = () => {
         fetchUser();
     }, []);
 
+    console.log(process.env)
 
     return(
         <div>
