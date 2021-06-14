@@ -7,3 +7,5 @@ mongoose.connect(process.env.MONGOOSE_DB_URL, {
     useUnifiedTopology: true,
     useFindAndModify: false
 });
+
+console.log(process.env)
