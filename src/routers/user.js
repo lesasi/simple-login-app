@@ -3,10 +3,11 @@ const express = require('express');
 const User = require('../models/user');
 const auth = require('../middleware/auth');
 const generateErrMessage = require('../util/generateErrMessage');
-// const firebase = require('../util/firebase');
+const firebase = require('../util/firebase');
 
 const router = express.Router();
 
+console.log(process.env.private_key)
 
 // make new user
 router.post('/new-user', async (req, res) => {
