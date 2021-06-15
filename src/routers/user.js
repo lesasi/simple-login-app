@@ -3,7 +3,7 @@ const express = require('express');
 const User = require('../models/user');
 const auth = require('../middleware/auth');
 const generateErrMessage = require('../util/generateErrMessage');
-const firebase = require('../util/firebase');
+// const firebase = require('../util/firebase');
 
 const router = express.Router();
 
@@ -71,38 +71,38 @@ router.post('/login', async (req, res) => {
     }
 });
 
-router.post('/googleLogin', async (req, res) => {
-    try{
-        const token = req.body.token;
-        const result = await firebase.auth().verifyIdToken(token);
-        const user = await User.findUserByGoogleId(result.uid);
-        // if new user - send id to user(DEV - make this jwt encoded)
-        if(!user) {
-            res.send({ googleId: result.uid, new_user: true });
-            return;
-        }
-        // else, just send the user details to client, along with token(DEV)
-        const auth_token = await user.generateAuthToken();
-        res.cookie(process.env.AUTH_COOKIE, auth_token);
-        res.send({ user });
-    }catch(error){
-        res.status(400).send({error: generateErrMessage(error.message)});
-    }
-});
+// router.post('/googleLogin', async (req, res) => {
+//     try{
+//         const token = req.body.token;
+//         const result = await firebase.auth().verifyIdToken(token);
+//         const user = await User.findUserByGoogleId(result.uid);
+//         // if new user - send id to user(DEV - make this jwt encoded)
+//         if(!user) {
+//             res.send({ googleId: result.uid, new_user: true });
+//             return;
+//         }
+//         // else, just send the user details to client, along with token(DEV)
+//         const auth_token = await user.generateAuthToken();
+//         res.cookie(process.env.AUTH_COOKIE, auth_token);
+//         res.send({ user });
+//     }catch(error){
+//         res.status(400).send({error: generateErrMessage(error.message)});
+//     }
+// });
 
-// add google token to a user
-router.post('/setGoogleToken', auth, async (req, res) => {
-    try{
-        const token = req.body.token;
-        const result = await firebase.auth().verifyIdToken(token);
-        // set uid to user's googleId
-        req.user.googleId = result.uid;
-        await req.user.save();
-        res.send({ user: req.user })
-    }catch(error){
-        res.status(400).send({error: generateErrMessage(error.message)});
-    }
-});
+// // add google token to a user
+// router.post('/setGoogleToken', auth, async (req, res) => {
+//     try{
+//         const token = req.body.token;
+//         const result = await firebase.auth().verifyIdToken(token);
+//         // set uid to user's googleId
+//         req.user.googleId = result.uid;
+//         await req.user.save();
+//         res.send({ user: req.user })
+//     }catch(error){
+//         res.status(400).send({error: generateErrMessage(error.message)});
+//     }
+// });
 
 
 // log out of current account

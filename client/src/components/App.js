@@ -43,6 +43,7 @@ const App = () => {
         return <LoadingScreen />;
     }
 
+    console.log(process.env)
     return(
         <Provider store={store}>
             <PopupOverlay>
