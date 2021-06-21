@@ -91,7 +91,6 @@ const HomePage = () => {
             });
             return;
         }
-        console.log(data)
         dispatch({
             type: 'LOGOUT'
         });
@@ -117,7 +116,6 @@ const HomePage = () => {
             });
             return;
         }
-        console.log(data)
         dispatch({
             type: 'NEW_MESSAGE',
             payload: {

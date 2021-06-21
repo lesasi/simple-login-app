@@ -103,11 +103,6 @@ router.post('/setGoogleToken', auth, async (req, res) => {
     }
 });
 
-// DEV - return backend process.env
-router.get('/processenv', async (req, res) => {
-    res.send(process.env);
-});
-
 
 // log out of current account
 router.post('/logout', auth, async (req, res) => {
