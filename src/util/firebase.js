@@ -14,7 +14,7 @@ try {
     type: 'service_account',
     project_id,
     private_key_id,
-    private_key,
+    private_key: private_key.replace(/\\n/g, '\n'),
     client_email,
     client_id,
     auth_uri: 'https://accounts.google.com/o/oauth2/auth',
