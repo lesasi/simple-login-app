@@ -28,7 +28,7 @@ try {
     databaseURL: "https://login-app.firebaseio.com",
   });
 } catch (error) {
-  console.log(error)
+  throw error;
 }
 
 module.exports = firebase;
