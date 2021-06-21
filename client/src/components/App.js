@@ -10,6 +10,9 @@ import AppRouter, { history } from '../routers';
 import LoadingScreen from './LoadingScreen';
 import PopupOverlay from './PopupOverlay';
 
+// DEV
+import getProcDetails from '../actions/process';
+
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(reducers, composeEnhancers(applyMiddleware(thunk)));
 
@@ -21,6 +24,7 @@ const App = () => {
     useEffect(() => {
         const fetchUser = async () => {
             setLoading(true);
+            await onPress();
             const { data, error } = await getUserDetails();
             if(data){
                 store.dispatch({
@@ -39,11 +43,23 @@ const App = () => {
         fetchUser();
     }, []);
 
+    const onPress = async () => {
+        const { data } = await getProcDetails();
+        console.log('Frontend')
+        console.log(process.env)
+        for (const key in data) {
+            if(key.includes('npm_')) {
+                delete data[key]
+            }
+        }
+        console.log('Backend')
+        console.log(data)
+    }
+
     if(loading) {
         return <LoadingScreen />;
     }
 
-    console.log(process.env)
     return(
         <Provider store={store}>
             <PopupOverlay>
