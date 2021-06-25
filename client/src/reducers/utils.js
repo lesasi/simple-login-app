@@ -1,7 +1,8 @@
 const initialState = {
     redirectTo: '',
-    new_message: false,
-    message: null
+    new_message_toggle: false,
+    message: null,
+    type: ''
 };
 
 const utils = (state = initialState, action = {}) => {
@@ -15,8 +16,9 @@ const utils = (state = initialState, action = {}) => {
         case 'NEW_MESSAGE': {
             return {
                 ...state,
-                new_message: true,
-                message: action.payload.message
+                new_message_toggle: !state.new_message_toggle,
+                message: action.payload.message,
+                type: action.payload.type
             }
         }
         case 'RESET_MESSAGE': {

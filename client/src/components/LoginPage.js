@@ -85,7 +85,8 @@ const LoginPage = () => {
             dispatch({
                 type: 'NEW_MESSAGE',
                 payload: {
-                    message: 'Google login failed...'
+                    message: 'Google login failed...',
+                    type: 'ERROR'
                 }
             });
         }

@@ -71,7 +71,8 @@ const HomePage = () => {
         dispatch({
             type: 'NEW_MESSAGE',
             payload: {
-                message: 'Logged out successfully!'
+                message: 'Logged out successfully!',
+                type: 'SUCCESS'
             }
         });
         history.push('/login')
@@ -86,7 +87,8 @@ const HomePage = () => {
             dispatch({
                 type: 'NEW_MESSAGE',
                 payload: {
-                    message: 'Unable to delete user!'
+                    message: 'Unable to delete user!',
+                    type: 'ERROR'
                 }
             });
             return;
@@ -97,7 +99,8 @@ const HomePage = () => {
         dispatch({
             type: 'NEW_MESSAGE',
             payload: {
-                message: 'Deleted user!'
+                message: 'Deleted user!',
+                type: 'SUCCESS'
             }
         });
         history.push('/login');
@@ -111,7 +114,8 @@ const HomePage = () => {
             dispatch({
                 type: 'NEW_MESSAGE',
                 payload: {
-                    message: 'Google integration failed!'
+                    message: 'Google integration failed!',
+                    type: 'ERROR'
                 }
             });
             return;
@@ -119,7 +123,8 @@ const HomePage = () => {
         dispatch({
             type: 'NEW_MESSAGE',
             payload: {
-                message: 'Google integration successful!'
+                message: 'Google integration successful!',
+                type: 'SUCCESS'
             }
         });
     }
