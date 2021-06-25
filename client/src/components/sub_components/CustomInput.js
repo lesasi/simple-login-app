@@ -19,8 +19,6 @@ const CustomInput = ({ value, setValue, error_message, ...rest }) => {
                 value={value}
                 autoComplete="off"
                 variant="outlined"
-                error={error_message !== ''} 
-                helperText={error_message}
                 fullWidth
                 {...rest}
             />

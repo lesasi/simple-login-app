@@ -37,27 +37,8 @@ const LoginPage = () => {
 
     const [username, setUsername] = useState('lesasi');
     const [password, setPassword] = useState('test1234');
-    const [errorMsg, setErrorMsg] = useState({
-        username: '',
-        password: ''
-    });
     
     const dispatch = useDispatch();
-
-    const setErrorMsgDefault = () => {
-        setErrorMsg(prevState => ({
-            ...prevState,
-            username: '',
-            password: ''
-        }));
-    }
-
-    const updateErrorMsg = (key, message) => {
-        setErrorMsg(prevState => ({
-            ...prevState,
-            [key]: message
-        }));
-    }
 
     const googleLoginSubmit = async () => {
         try {
@@ -78,6 +59,13 @@ const LoginPage = () => {
                     type: 'INIT_USER',
                     payload: {
                         user: data.user
+                    }
+                });
+                dispatch({
+                    type: 'NEW_MESSAGE',
+                    payload: {
+                        message: 'Logged in!',
+                        type: 'SUCCESS'
                     }
                 });
             }         
@@ -102,11 +90,15 @@ const LoginPage = () => {
     const onSubmit = async (e) => {
         e.preventDefault();
         const { data, error } = await login(username, password);
-        setErrorMsgDefault();
 
         if(error) {
-            error.error.forEach(errorDesc => {
-                updateErrorMsg(errorDesc['key'], errorDesc['message']);
+            const err_message = (Array.isArray(error.error) ? error.error[0].message : error)
+            dispatch({
+                type: 'NEW_MESSAGE',
+                payload: {
+                    message: err_message,
+                    type: 'ERROR'
+                }
             });
         }
         else if(data){
@@ -114,6 +106,14 @@ const LoginPage = () => {
                 type: 'INIT_USER',
                 payload: {
                     user: data.user
+                }
+            });
+
+            dispatch({
+                type: 'NEW_MESSAGE',
+                payload: {
+                    message: 'Logged in!',
+                    type: 'SUCCESS'
                 }
             });
         }
@@ -142,7 +142,6 @@ const LoginPage = () => {
                     required
                     setValue={setUsername}
                     value={username}
-                    error_message={errorMsg['username']}
                 />
                 <CustomInput 
                     type="password" 
@@ -150,7 +149,6 @@ const LoginPage = () => {
                     id="password"
                     setValue={setPassword}
                     value={password}
-                    error_message={errorMsg['password']}
                 />
                 <Button
                     type="submit"

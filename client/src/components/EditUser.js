@@ -48,30 +48,6 @@ const EditUser = () => {
     const [oldPassword, setOldPassword] = useState('');
     const [password, setPassword] = useState('');
 
-    const [errorMsg, setErrorMsg] = useState({
-        username: '',
-        password: '',
-        age: '',
-        name: '',
-    });
-
-    const setErrorMsgDefault = () => {
-        setErrorMsg(prevState => ({
-            ...prevState,
-            username: '',
-            password: '',
-            age: '',
-            name: '',
-        }));
-    }
-
-    const updateErrorMsg = (key, message) => {
-        setErrorMsg(prevState => ({
-            ...prevState,
-            [key]: message
-        }));
-    }
-
     const [disablePassword, setDisablePassword] = useState(true);
 
     const togglePassword = (e) => {
@@ -81,7 +57,6 @@ const EditUser = () => {
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        setErrorMsgDefault();
         
         let payload = {
             username,
@@ -96,9 +71,13 @@ const EditUser = () => {
         }
         const { data, error } = await editUser(payload);
         if(error) {
-            console.log(error);
-            error.error.forEach(errorDesc => {
-                updateErrorMsg(errorDesc['key'], errorDesc['message']);
+            const err_message = (Array.isArray(error.error) ? error.error[0].message : error)
+            dispatch({
+                type: 'NEW_MESSAGE',
+                payload: {
+                    message: err_message,
+                    type: 'ERROR'
+                }
             });
             return;
         }
@@ -108,6 +87,15 @@ const EditUser = () => {
                 data
             }
         });
+
+        dispatch({
+            type: 'NEW_MESSAGE',
+            payload: {
+                message: 'Details saved!',
+                type: 'SUCCESS'
+            }
+        });
+
         // redirect to home page
         history.push('/');
     }
@@ -127,7 +115,6 @@ const EditUser = () => {
                     required
                     setValue={setUsername}
                     value={username}
-                    error_message={errorMsg['username']}
                 />
                 <CustomInput 
                     type="text" 
@@ -135,7 +122,6 @@ const EditUser = () => {
                     id="name" 
                     setValue={setName}
                     value={name}
-                    error_message={errorMsg['name']}
                 />
                 <CustomInput 
                     type="text" 
@@ -143,7 +129,6 @@ const EditUser = () => {
                     id="age" 
                     setValue={setAge}
                     value={age||''}
-                    error_message={errorMsg['age']}
                 />
                 <Grid container spacing={2}>
                     <Grid item xs={8}>
@@ -154,7 +139,6 @@ const EditUser = () => {
                             required
                             setValue={setPassword}
                             value={password}
-                            error_message={errorMsg['password']}
                             disabled={disablePassword}
                         />
                     </Grid>

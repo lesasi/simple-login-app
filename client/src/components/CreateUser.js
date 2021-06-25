@@ -39,30 +39,6 @@ const CreateUser = () => {
         };
     });  
 
-    const [errorMsg, setErrorMsg] = useState({
-        username: '',
-        password: '',
-        age: '',
-        name: ''
-    });
-
-    const setErrorMsgDefault = () => {
-        setErrorMsg(prevState => ({
-            ...prevState,
-            username: '',
-            password: '',
-            age: '',
-            name: ''
-        }));
-    }
-
-    const updateErrorMsg = (key, message) => {
-        setErrorMsg(prevState => ({
-            ...prevState,
-            [key]: message
-        }));
-    }
-
     const resetParams = () => {
         setUsername('');
         setName('');
@@ -72,7 +48,6 @@ const CreateUser = () => {
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        setErrorMsgDefault();
 
         const { data, error } = await createUser({
             username,
@@ -81,9 +56,15 @@ const CreateUser = () => {
             password,
             googleId: reduxStates.googleId
         });
+
         if(error) {
-            error.error.forEach(errorDesc => {
-                updateErrorMsg(errorDesc['key'], errorDesc['message']);
+            const err_message = (Array.isArray(error.error) ? error.error[0].message : error)
+            dispatch({
+                type: 'NEW_MESSAGE',
+                payload: {
+                    message: err_message,
+                    type: 'ERROR'
+                }
             });
             // DEV
             // resetParams();
@@ -93,6 +74,14 @@ const CreateUser = () => {
             type: 'INIT_USER',
             payload: {
                 user: data.user
+            }
+        });
+
+        dispatch({
+            type: 'NEW_MESSAGE',
+            payload: {
+                message: 'Created account successfully!',
+                type: 'SUCCESS'
             }
         });
 
@@ -121,7 +110,6 @@ const CreateUser = () => {
                     required
                     setValue={setUsername}
                     value={username}
-                    error_message={errorMsg['username']}
                 />
                 <CustomInput 
                     type="text" 
@@ -129,7 +117,6 @@ const CreateUser = () => {
                     id="name" 
                     setValue={setName}
                     value={name}
-                    error_message={errorMsg['name']}
                 />
                 <CustomInput 
                     type="text" 
@@ -137,7 +124,6 @@ const CreateUser = () => {
                     id="age" 
                     setValue={setAge}
                     value={age}
-                    error_message={errorMsg['age']}
                 />
                 <CustomInput 
                     type="password" 
@@ -146,7 +132,6 @@ const CreateUser = () => {
                     required={!reduxStates.googleId}
                     setValue={setPassword}
                     value={password}
-                    error_message={errorMsg['password']}
                 />
                 <Button
                     type="submit"

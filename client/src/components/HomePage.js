@@ -110,7 +110,6 @@ const HomePage = () => {
         e.preventDefault();
         const { data, error } = await setGoogleEmail();
         if(error) {
-            console.log(error)
             dispatch({
                 type: 'NEW_MESSAGE',
                 payload: {
