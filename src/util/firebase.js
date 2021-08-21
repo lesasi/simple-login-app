@@ -1,6 +1,7 @@
 const firebase = require("firebase-admin");
 
 const {
+  app_name,
   project_id,
   private_key_id,
   private_key,
@@ -24,7 +25,7 @@ const credentials = {
 
 firebase.initializeApp({
   credential: firebase.credential.cert(credentials),
-  databaseURL: "https://login-app.firebaseio.com",
+  databaseURL: `https://${app_name}.firebaseio.com`,
 });
 
 module.exports = firebase;

@@ -9,22 +9,38 @@ const router = express.Router();
 
 // make new user
 router.post('/new-user', async (req, res) => {
-    try{
-        // conditions - if this is new user as a result of google login, then password
-        // is not necessary - check for googleId variable
-        if(!req.body.googleId && !req.body.password) {
-            throw new Error('Custom:Password not provided!')
-        }
+    try {
+        // Receive token from Frontend with Firebase Token, and user details
+        const token = req.body.token;
+        const result = await firebase.auth().verifyIdToken(token);
+        req.body.firebaseId = result.uid;
+
+        // Now, create user object using the request body
         const user = new User(req.body);
-        const token = await user.generateAuthToken();
-        if(req.header('User-Agent').includes('PostmanRuntime')){
-            res.status(201).send({ user, token })
-        }else {
-            res.cookie(process.env.AUTH_COOKIE, token);
-            res.status(201).send({ user });
-        }
-    }catch(error){
+        const auth_token = await user.generateAuthToken();
+
+        // Send to user
+        res.cookie(process.env.AUTH_COOKIE, auth_token);
+        res.status(201).send({ user });
+    } catch(error){
         res.status(400).send({ error: generateErrMessage(error.message) });
+    }
+});
+
+router.post('/login', async (req, res) => {
+    try {
+        const token = req.body.token;
+        const result = await firebase.auth().verifyIdToken(token);
+
+        // get user object and generate token
+        const user = await User.findUserByFirebaseId(result.uid);
+        const auth_token = await user.generateAuthToken();
+
+        // Send the user details to client
+        res.cookie(process.env.AUTH_COOKIE, auth_token);
+        res.send({ user });
+    } catch(error){
+        res.status(400).send({error: generateErrMessage(error.message)});
     }
 });
 
@@ -33,7 +49,7 @@ router.get('/users/me', auth, async (req, res) => {
     res.send({ user: req.user });
 }); 
 
-// edit user
+// edit user - FIX
 router.post('/users/me/edit', auth, async (req, res) => {
     const allowedUpdates = ['username', 'age', 'name', 'password'];
     const user = req.user;
@@ -53,49 +69,13 @@ router.post('/users/me/edit', auth, async (req, res) => {
     }
 }); 
 
-// login using username and password
-router.post('/login', async (req, res) => {
-    try{
-        const user = await User.findUserByCredentials(req.body);
-        const token = await user.generateAuthToken();
-        if(req.header('User-Agent').includes('PostmanRuntime')){
-            res.cookie(process.env.AUTH_COOKIE, token);
-            res.send({ user, token });
-        }else {
-            res.cookie(process.env.AUTH_COOKIE, token);
-            res.send({ user });
-        }
-    }catch(error){
-        res.status(400).send({error: generateErrMessage(error.message)});
-    }
-});
-
-router.post('/googleLogin', async (req, res) => {
-    try{
-        const token = req.body.token;
-        const result = await firebase.auth().verifyIdToken(token);
-        const user = await User.findUserByGoogleId(result.uid);
-        // if new user - send id to user(DEV - make this jwt encoded)
-        if(!user) {
-            res.send({ googleId: result.uid, new_user: true });
-            return;
-        }
-        // else, just send the user details to client, along with token(DEV)
-        const auth_token = await user.generateAuthToken();
-        res.cookie(process.env.AUTH_COOKIE, auth_token);
-        res.send({ user });
-    }catch(error){
-        res.status(400).send({error: generateErrMessage(error.message)});
-    }
-});
-
-// add google token to a user
+// add google token to a user - FIX
 router.post('/setGoogleToken', auth, async (req, res) => {
     try{
         const token = req.body.token;
         const result = await firebase.auth().verifyIdToken(token);
-        // set uid to user's googleId
-        req.user.googleId = result.uid;
+        // set uid to user's firebaseId
+        req.user.firebaseId = result.uid;
         await req.user.save();
         res.send({ user: req.user })
     }catch(error){
@@ -126,12 +106,13 @@ router.post('/logout/all', auth, async (req, res) => {
     } 
 });
 
+// FIX
 router.post('/users/me/delete', auth, async (req, res) => {
     try {
         await req.user.remove();
         // delete from google auth
-        if(!!req.user.googleId) {
-            await firebase.auth().deleteUser(req.user.googleId);
+        if(!!req.user.firebaseId) {
+            await firebase.auth().deleteUser(req.user.firebaseId);
         }
         res.send({ user: req.user });
     } catch (error) {
