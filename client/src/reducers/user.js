@@ -34,7 +34,7 @@ const user = (state = initialState, action = {}) => {
         case 'EDIT_USER': {
             return {
                 ...state,
-                ...action.payload.data
+                ...action.payload.user
             };
         }
         case 'SET_GOOGLE_TOKEN': {

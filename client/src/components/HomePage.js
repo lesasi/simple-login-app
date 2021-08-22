@@ -152,7 +152,7 @@ const HomePage = () => {
                         User Details
                     </Typography>
                     <Typography className={classes.down} variant="body2" component="p">
-                        Username: {reduxStates.user.username}
+                        Email: {reduxStates.user.email}
                     </Typography>
                     <Typography className={classes.down} variant="body2" component="p">
                         Name: {reduxStates.user.name}

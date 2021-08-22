@@ -32,10 +32,6 @@ const CustomRoute = ({ is_public, component: Component, ...rest }) => {
             />
         );
     }
-
-    return <Route {...rest} component={(props) => (
-        <Component { ...props }/>
-    )} />;
 };
 
 export default CustomRoute;

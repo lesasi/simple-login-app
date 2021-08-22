@@ -8,9 +8,9 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 
-import { editUser } from '../actions/crud-user';
-import { history } from '../routers';
-import CustomInput from './sub_components/CustomInput';
+import { editUser } from '../../actions/crud-user';
+import { history } from '../../routers';
+import CustomInput from '../sub_components/CustomInput';
 
 const useStyles = makeStyles((theme) => ({
     edit: {
@@ -42,7 +42,7 @@ const EditUser = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
 
-    const [username, setUsername] = useState(reduxStates.user.username);
+    const [email, setEmail] = useState(reduxStates.user.email);
     const [age, setAge] = useState(reduxStates.user.age);
     const [name, setName] = useState(reduxStates.user.name);
     const [oldPassword, setOldPassword] = useState('');
@@ -59,7 +59,7 @@ const EditUser = () => {
         e.preventDefault();
         
         let payload = {
-            username,
+            email,
             age,
             name
         };
@@ -110,11 +110,11 @@ const EditUser = () => {
             >   
                 <CustomInput 
                     type="text" 
-                    label="Username" 
-                    id="username" 
+                    label="Email" 
+                    id="email" 
                     required
-                    setValue={setUsername}
-                    value={username}
+                    setValue={setEmail}
+                    value={email}
                 />
                 <CustomInput 
                     type="text" 

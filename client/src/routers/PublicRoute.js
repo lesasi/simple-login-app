@@ -7,13 +7,13 @@ export const PublicRoute = ({
   component: Component,
   ...rest
 }) => (
-    <Route {...rest} component={(props) => (
-      isAuthenticated ? (
-        <Redirect to="/" />
-      ) : (
-          <Component {...props} />
-        )
-    )} />
-  );
+  <Route {...rest} component={(props) => (
+    isAuthenticated ? (
+      <Redirect to="/" />
+    ) : (
+        <Component {...props} />
+      )
+  )} />
+);
 
 export default PublicRoute;

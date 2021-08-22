@@ -10,10 +10,10 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 
-import { login } from '../actions/auth';
-import { googleLogin } from '../actions/auth';
-import { history } from '../routers';
-import CustomInput from './sub_components/CustomInput';
+import { login } from '../../actions/auth';
+import { googleLogin } from '../../actions/auth';
+import { history } from '../../routers';
+import CustomInput from '../sub_components/CustomInput';
 
 const useStyles = makeStyles((theme) => ({
     login: {
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 const LoginPage = () => {
     const classes = useStyles();
 
-    const [username, setUsername] = useState('lesasi');
+    const [email, setEmail] = useState('lesasi');
     const [password, setPassword] = useState('test1234');
     
     const dispatch = useDispatch();
@@ -89,7 +89,7 @@ const LoginPage = () => {
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        const { data, error } = await login(username, password);
+        const { data, error } = await login(email, password);
 
         if(error) {
             const err_message = (Array.isArray(error.error) ? error.error[0].message : error)
@@ -118,7 +118,7 @@ const LoginPage = () => {
             });
         }
         // DEV
-        // setUsername('');
+        // setEmail('');
         // setPassword('');
     }
 
@@ -137,11 +137,11 @@ const LoginPage = () => {
             >   
                 <CustomInput 
                     type="text" 
-                    label="Username" 
-                    id="username" 
+                    label="Email" 
+                    id="email" 
                     required
-                    setValue={setUsername}
-                    value={username}
+                    setValue={setEmail}
+                    value={email}
                 />
                 <CustomInput 
                     type="password" 
