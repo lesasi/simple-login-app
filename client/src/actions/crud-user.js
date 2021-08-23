@@ -5,7 +5,8 @@ export const createUser = async (obj) => {
         const response = await axiosObj.post('/new-user', obj);
         return { data: response.data } ;
     } catch(error){
-        throw new Error(error.message);
+        const err_message = error.response.data.error || error.message;
+        throw new Error(err_message);
     }
 };
 
@@ -14,7 +15,8 @@ export const editUser = async (obj) => {
         const response = await axiosObj.post('/users/me/edit', obj);
         return { data: response.data } ;
     }catch(error){
-        return { error: error.response.data };
+        const err_message = error.response.data.error || error.message;
+        throw new Error(err_message);
     }
 };
 
@@ -23,6 +25,7 @@ export const deleteUser = async () => {
         const response = await axiosObj.post('/users/me/delete');
         return { data: response.data } ;
     }catch(error){
-        return { error: error.response.data };
+        const err_message = error.response.data.error || error.message;
+        throw new Error(err_message);
     }
 };

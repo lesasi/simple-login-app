@@ -8,7 +8,7 @@ import Card from '@material-ui/core/Card';
 import CustomRoute from './CustomRoute';
 import HomePage from '../components/HomePage';
 import LoginPage from '../components/User/LoginPage';
-import CreateUser from '../components/User/Create/CreateUser';
+import CreateUserComponent from '../components/User/Create/CreateUserComponent';
 import EditUser from '../components/User/EditUser';
 
 export const history = createBrowserHistory();
@@ -33,7 +33,7 @@ const AppRouter = () => {
                     <CustomRoute path="/" exact component={HomePage}/>
                     {/* <CustomRoute path="/edit-user" exact component={EditUser} /> */}
                     <CustomRoute is_public path="/login" exact component={LoginPage} />
-                    <CustomRoute is_public path="/create-user" exact component={CreateUser} />
+                    <CustomRoute is_public path="/create-user" exact component={CreateUserComponent} />
                 </div>
             </Container>
         </Router>

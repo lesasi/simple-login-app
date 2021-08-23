@@ -8,9 +8,9 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 import { createUser } from '../../../actions/crud-user';
-import { history } from '../../../routers';
 import CustomInput from '../../sub_components/CustomInput';
 
+// TO BE REMOVED
 const CreateUserAdditionalDetails = ({
     token,
     email,
@@ -26,6 +26,16 @@ const CreateUserAdditionalDetails = ({
         setAge('');
     }
 
+    useEffect(() => {
+        dispatch({
+            type: 'SET_CREATE_USER_PHASE',
+            payload: {
+                credPhase: true,
+                addPhase: false
+            }
+        });
+    }, []);
+
     const onSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -36,23 +46,6 @@ const CreateUserAdditionalDetails = ({
                 token
             });
 
-            dispatch({
-                type: 'INIT_USER',
-                payload: {
-                    user: data.user
-                }
-            });
-
-            dispatch({
-                type: 'NEW_MESSAGE',
-                payload: {
-                    message: 'Created account successfully!',
-                    type: 'SUCCESS'
-                }
-            });
-            console.log('')
-            // Redirect to home page
-            history.push('/');
         } catch (error) {
             const err_message = error.message;
             dispatch({
