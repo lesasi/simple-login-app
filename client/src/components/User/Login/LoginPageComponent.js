@@ -10,10 +10,10 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 
-import { login } from '../../actions/auth';
-import { googleLogin } from '../../actions/auth';
-import { history } from '../../routers';
-import CustomInput from '../sub_components/CustomInput';
+import { googlePopupSignIn, firebaseLogin } from '../../../actions/auth';
+import { login } from '../../../actions/crud-user';
+import { history } from '../../../routers';
+import CustomInput from '../../sub_components/CustomInput';
 
 const useStyles = makeStyles((theme) => ({
     login: {
@@ -32,17 +32,17 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const LoginPage = () => {
+const LoginPageComponent = () => {
     const classes = useStyles();
 
-    const [email, setEmail] = useState('lesasi');
+    const [email, setEmail] = useState('nevinusa@gmail.com');
     const [password, setPassword] = useState('test1234');
     
     const dispatch = useDispatch();
 
     const googleLoginSubmit = async () => {
         try {
-            const { data, error } = await googleLogin();
+            const { data, error } = await googlePopupSignIn();
             if(error) {
                 throw new Error(error);
             }
@@ -89,19 +89,13 @@ const LoginPage = () => {
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        const { data, error } = await login(email, password);
-
-        if(error) {
-            const err_message = (Array.isArray(error.error) ? error.error[0].message : error)
-            dispatch({
-                type: 'NEW_MESSAGE',
-                payload: {
-                    message: err_message,
-                    type: 'ERROR'
-                }
+        
+        try {
+            const { fireBaseToken } = await firebaseLogin(email, password);
+            const { data } = await login({
+                token: fireBaseToken
             });
-        }
-        else if(data){
+
             dispatch({
                 type: 'INIT_USER',
                 payload: {
@@ -114,6 +108,15 @@ const LoginPage = () => {
                 payload: {
                     message: 'Logged in!',
                     type: 'SUCCESS'
+                }
+            });
+        } catch (error) {
+            const err_message = error.message;
+            dispatch({
+                type: 'NEW_MESSAGE',
+                payload: {
+                    message: err_message,
+                    type: 'ERROR'
                 }
             });
         }
@@ -175,4 +178,4 @@ const LoginPage = () => {
     );
 };
 
-export default LoginPage;
+export default LoginPageComponent;

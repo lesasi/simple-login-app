@@ -8,9 +8,9 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 
-import { editUser } from '../../actions/crud-user';
-import { history } from '../../routers';
-import CustomInput from '../sub_components/CustomInput';
+import { editUser } from '../../../actions/crud-user';
+import { history } from '../../../routers';
+import CustomInput from '../../sub_components/CustomInput';
 
 const useStyles = makeStyles((theme) => ({
     edit: {

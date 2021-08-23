@@ -14,7 +14,20 @@ export const createNewFirebaseUser = async (email, password) => {
     }
 }
 
-export const googleLogin = async () => {
+export const firebaseLogin = async (email, password) => {
+    try {
+        const user = await auth.signInWithEmailAndPassword(email, password);
+        const fireBaseToken = await auth?.currentUser?.getIdToken(true);
+        return {
+            fireBaseToken,
+            user
+        };
+    } catch (error) {
+        throw new Error(error.message);
+    }
+}
+
+export const googlePopupSignIn = async () => {
     try {
         const result = await auth.signInWithPopup(googleProvider);
         const token = await auth?.currentUser?.getIdToken(true);
@@ -40,18 +53,6 @@ export const setGoogleEmail = async () => {
         return { data: response.data }
     } catch (error) {
         return { error: error.message }
-    }
-};
-
-export const login = async (email, password) => {
-    try{
-        const response = await axiosObj.post('/login', {
-            email,
-            password
-        });
-        return { data: response.data } ;
-    }catch(error){
-        return { error: error.response.data };
     }
 };
 
