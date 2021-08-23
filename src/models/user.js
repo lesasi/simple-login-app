@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema({
     },
     firebaseId: {
         type: String,
-        default: null
+        required: true
     },
     tokens: [{
         token_string: {
@@ -60,6 +60,7 @@ userSchema.methods.toJSON = function () {
     const user = this.toObject();
     // remove tokens attribute
     delete user.tokens;
+    delete user.firebaseId;
     // return user object
     return user;
 }

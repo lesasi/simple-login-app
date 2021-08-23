@@ -17,7 +17,7 @@ const auth = async(req, res, next) => {
         req.token = token;
         next();
     } catch (error) {
-        res.status(500).send({ error: "Please login" })
+        res.status(403).send({ error: error.message })
     }   
 }
 
