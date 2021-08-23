@@ -8,15 +8,15 @@ const userSchema = new mongoose.Schema({
     email: {
         type: String,
         required: true,
-        unique: true,
     },
     name: {
         type: String,
-        trim: true
+        trim: true,
+        default: null
     },
     age: {
         type: Number,
-        default: 0,
+        default: null,
         validate(value){
             if(value < 0){
                 throw new Error('Age can\'t be negative!')
