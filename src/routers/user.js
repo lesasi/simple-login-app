@@ -49,13 +49,12 @@ router.get('/users/me', auth, async (req, res) => {
     res.send({ user: req.user });
 }); 
 
-// edit user - FIX
 router.post('/users/me/edit', auth, async (req, res) => {
-    const allowedUpdates = ['username', 'age', 'name', 'password'];
+    const allowedUpdates = ['age', 'name'];
     const user = req.user;
     const updatesArr = Object.keys(req.body);
     try {
-        for(let i =0; i < updatesArr.length; i++) {
+        for(let i = 0; i < updatesArr.length; i++) {
             const key = updatesArr[i];
             if(!allowedUpdates.includes(key)) {
                 throw new Error(`Key [${key}] not allowed!`);
@@ -63,7 +62,7 @@ router.post('/users/me/edit', auth, async (req, res) => {
             user[key] = req.body[key];
         };
         await user.save();
-        res.send(user);
+        res.send({ user });
     } catch (error) {
         res.status(403).send({error: generateErrMessage(error.message)});
     }
