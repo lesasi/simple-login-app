@@ -11,8 +11,8 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
-import { logout, setGoogleEmail } from '../actions/auth';
-import { deleteUser } from '../actions/crud-user';
+import { firebaseLogout, setGoogleEmail } from '../actions/auth';
+import { deleteUser, logoutUser } from '../actions/crud-user';
 import { history } from '../routers';
 import CustomDialog from './sub_components/CustomDialog';
 import { auth } from '../utils/firebase-config';
@@ -58,24 +58,22 @@ const HomePage = () => {
         };
     });   
 
-    const logoutUser = async (e) => {
+    const logoutUserFn = async (e) => {
         e.preventDefault();
-        const { success, error } = await logout();
-        if(error){
+        try {
+            await firebaseLogout();
+            dispatch({
+                type: 'NEW_MESSAGE',
+                payload: {
+                    message: 'Logged out successfully!',
+                    type: 'SUCCESS'
+                }
+            });
+            history.push('/login')
+        } catch (error) {
             console.log(error);
-            return;
+            return;            
         }
-        dispatch({
-            type: 'LOGOUT'
-        });
-        dispatch({
-            type: 'NEW_MESSAGE',
-            payload: {
-                message: 'Logged out successfully!',
-                type: 'SUCCESS'
-            }
-        });
-        history.push('/login')
     }
 
     const deleteUserSubmit = async (e) => {
@@ -142,7 +140,7 @@ const HomePage = () => {
                 >
                     Delete User
                 </div>
-                <div onClick={logoutUser} className="logout title-button">
+                <div onClick={logoutUserFn} className="logout title-button">
                     Logout
                 </div>
             </div>

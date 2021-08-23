@@ -26,7 +26,6 @@ const CreateUserCredentials = ({ classes }) => {
                 email,
                 token: fireBaseToken
             });
-            console.log(data)
 
             dispatch({
                 type: 'INIT_USER',

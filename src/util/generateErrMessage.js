@@ -5,7 +5,6 @@ const handleEdgeCases = (message, key="") => {
         return `${key} must be a number!`;
     }
     if(message.includes('E11000 duplicate key error')) {
-        console.log(message)
         return `${key} already exists`
     }
     if(message.includes('verifyIdToken')) {

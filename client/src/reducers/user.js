@@ -15,7 +15,6 @@ const user = (state = initialState, action = {}) => {
             return {
                 ...state,
                 logged_in: true,
-                google_token: null,
                 ...action.payload.user
             }
         }

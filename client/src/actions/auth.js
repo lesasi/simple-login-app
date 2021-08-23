@@ -25,7 +25,16 @@ export const firebaseLogin = async (email, password) => {
     } catch (error) {
         throw new Error(error.message);
     }
-}
+};
+
+export const firebaseLogout = async () => {
+    try{
+        await auth.signOut()
+        return { success: true } ;
+    }catch(error){
+        return { error: error.response.data };
+    }
+};
 
 export const googlePopupSignIn = async () => {
     try {
@@ -53,15 +62,5 @@ export const setGoogleEmail = async () => {
         return { data: response.data }
     } catch (error) {
         return { error: error.message }
-    }
-};
-
-export const logout = async () => {
-    try{
-        await axiosObj.post('/logout');
-        await auth.signOut()
-        return { success: true } ;
-    }catch(error){
-        return { error: error.response.data };
     }
 };

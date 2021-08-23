@@ -11,7 +11,7 @@ import Typography from '@material-ui/core/Typography';
 
 
 import { googlePopupSignIn, firebaseLogin } from '../../../actions/auth';
-import { login } from '../../../actions/crud-user';
+import { loginUser } from '../../../actions/crud-user';
 import { history } from '../../../routers';
 import CustomInput from '../../sub_components/CustomInput';
 
@@ -89,10 +89,9 @@ const LoginPageComponent = () => {
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        
         try {
             const { fireBaseToken } = await firebaseLogin(email, password);
-            const { data } = await login({
+            const { data } = await loginUser({
                 token: fireBaseToken
             });
 
