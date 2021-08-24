@@ -15,7 +15,7 @@ const utils = (state = initialState, action = {}) => {
                 ...state,
                 notifier: {
                     ...state.notifier,
-                    new_message_toggle: !state.new_message_toggle,
+                    new_message_toggle: !state.notifier.new_message_toggle,
                     message: action.payload.message,
                     type: action.payload.type
                 }

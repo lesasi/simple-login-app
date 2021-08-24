@@ -10,8 +10,8 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 
-import { googlePopupSignIn, firebaseLogin } from '../../../actions/auth';
-import { loginUser } from '../../../actions/crud-user';
+import { googlePopupSignIn } from '../../../actions/auth';
+import loginUserAction from '../../../actions/functions/loginUserAction';
 import { history } from '../../../routers';
 import CustomInput from '../../sub_components/CustomInput';
 
@@ -37,6 +37,7 @@ const LoginPageComponent = () => {
 
     const [email, setEmail] = useState('nevinusa@gmail.com');
     const [password, setPassword] = useState('test1234');
+    console.log(__dirname)
     
     const dispatch = useDispatch();
 
@@ -89,36 +90,7 @@ const LoginPageComponent = () => {
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        try {
-            const { fireBaseToken } = await firebaseLogin(email, password);
-            const { data } = await loginUser({
-                token: fireBaseToken
-            });
-
-            dispatch({
-                type: 'INIT_USER',
-                payload: {
-                    user: data.user
-                }
-            });
-
-            dispatch({
-                type: 'NEW_MESSAGE',
-                payload: {
-                    message: 'Logged in!',
-                    type: 'SUCCESS'
-                }
-            });
-        } catch (error) {
-            const err_message = error.message;
-            dispatch({
-                type: 'NEW_MESSAGE',
-                payload: {
-                    message: err_message,
-                    type: 'ERROR'
-                }
-            });
-        }
+        dispatch(loginUserAction(email, password));
         // DEV
         // setEmail('');
         // setPassword('');

@@ -8,6 +8,7 @@ import { createNewFirebaseUser } from '../../../actions/auth';
 import { createUser } from '../../../actions/crud-user';
 import { history } from '../../../routers';
 import CustomInput from '../../sub_components/CustomInput';
+import createUserAction from '../../../actions/functions/createUserAction';
 
 
 const CreateUserCredentials = ({ classes }) => {
@@ -19,40 +20,7 @@ const CreateUserCredentials = ({ classes }) => {
 
     const onSubmit = async (e) => {
         e.preventDefault();
-
-        try {
-            const { fireBaseToken } = await createNewFirebaseUser(email, password);
-            const { data } = await createUser({
-                email,
-                token: fireBaseToken
-            });
-
-            dispatch({
-                type: 'INIT_USER',
-                payload: {
-                    user: data.user
-                }
-            });
-
-            dispatch({
-                type: 'NEW_MESSAGE',
-                payload: {
-                    message: 'Created account successfully!',
-                    type: 'SUCCESS'
-                }
-            });
-            // Redirect to home page
-            history.push('/');
-        } catch (error) {
-            const err_message = error.message;
-            dispatch({
-                type: 'NEW_MESSAGE',
-                payload: {
-                    message: err_message,
-                    type: 'ERROR'
-                }
-            });
-        }
+        dispatch(createUserAction(email, password));
     }
 
     return (
