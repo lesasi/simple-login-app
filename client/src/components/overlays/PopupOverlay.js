@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 const PopupOverlay = ({ children }) => {
     const reduxStates = useSelector((state) => {
         return {
-            utils: state.utils
+            notifier: state.utils.notifier
         };
     });   
 
@@ -76,13 +76,13 @@ const PopupOverlay = ({ children }) => {
 
     useEffect(() => {
         setOpen(false);
-        setMessage(reduxStates.utils.message);
-        setSnackBar(reduxStates.utils.type);
+        setMessage(reduxStates.notifier.message);
+        setSnackBar(reduxStates.notifier.type);
 
         setTimeout(() => {
             setOpen(true);
         }, 200);
-    }, [reduxStates.utils.new_message_toggle]);
+    }, [reduxStates.notifier.new_message_toggle]);
 
     return (
         <React.Fragment>

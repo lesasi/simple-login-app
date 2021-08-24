@@ -11,16 +11,16 @@ import { getUser, logoutUser } from './actions/crud-user';
 import { firebaseLogout } from './actions/auth';
 import AppRouter, { history } from './routers';
 import LoadingScreen from './components/LoadingScreen';
-import PopupOverlay from './components/PopupOverlay';
+import AppOverlay from './components/overlays';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(reducers, composeEnhancers(applyMiddleware(thunk)));
 
 const jsx = (
     <Provider store={store}>
-        <PopupOverlay>
+        <AppOverlay>
             <AppRouter />
-        </PopupOverlay>
+        </AppOverlay>
     </Provider>
 );
 

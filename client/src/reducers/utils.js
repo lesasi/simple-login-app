@@ -1,31 +1,45 @@
 const initialState = {
-    redirectTo: '',
-    new_message_toggle: false,
-    message: null,
-    type: ''
+    notifier: {
+        new_message_toggle: false,
+        message: null,
+        type: ''
+    },
+    loading: false
 };
 
 const utils = (state = initialState, action = {}) => {
     switch(action.type) {
-        case 'REDIRECT': {
-            return {
-                ...state,
-                redirectTo: action.payload.redirectTo
-            }
-        }
         case 'NEW_MESSAGE': {
             return {
                 ...state,
-                new_message_toggle: !state.new_message_toggle,
-                message: action.payload.message,
-                type: action.payload.type
+                notifier: {
+                    ...state.notifier,
+                    new_message_toggle: !state.new_message_toggle,
+                    message: action.payload.message,
+                    type: action.payload.type
+                }
             }
         }
         case 'RESET_MESSAGE': {
             return {
                 ...state,
-                new_message: false,
-                message: null
+                notifier: {
+                    ...state.notifier,
+                    new_message: false,
+                    message: null
+                },
+            }
+        }
+        case 'LOADING': {
+            return {
+                ...state,
+                loading: true
+            };
+        }
+        case 'LOADING_COMPLETE': {
+            return {
+                ...state,
+                loading: false
             }
         }
         default: {
