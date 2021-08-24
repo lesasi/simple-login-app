@@ -4,7 +4,8 @@ const initialState = {
         message: null,
         type: ''
     },
-    loading: false
+    loading: false,
+    loadingMessage: 'Loading...'
 };
 
 const utils = (state = initialState, action = {}) => {

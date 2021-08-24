@@ -10,6 +10,7 @@ import HomePage from '../components/HomePage';
 import LoginPageComponent from '../components/User/Login/LoginPageComponent';
 import CreateUserComponent from '../components/User/Create/CreateUserComponent';
 import EditUser from '../components/User/Edit/EditUser';
+import Navbar from '../components/navbar/Navbar';
 
 export const history = createBrowserHistory();
 
@@ -28,7 +29,8 @@ const AppRouter = () => {
 
     return(
         <Router history={history}>
-             <Container component="main" maxWidth="xs">
+            <Navbar />
+            <Container component="main" maxWidth="sm">
                 <div className={classes.paper}>
                     <CustomRoute path="/" exact component={HomePage}/>
                     {/* <CustomRoute path="/edit-user" exact component={EditUser} /> */}

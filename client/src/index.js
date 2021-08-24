@@ -4,14 +4,15 @@ import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
-import { auth } from './utils/firebase-config';
 
 import reducers from './reducers';
+import { auth } from './utils/firebase-config';
 import { getUser, logoutUser } from './actions/crud-user';
 import { firebaseLogout } from './actions/auth';
 import AppRouter, { history } from './routers';
-import LoadingScreen from './components/LoadingScreen';
+
 import AppOverlay from './components/overlays';
+import LoadingOverlayWithStyle from './components/overlays/LoadingOverlayWithStyle';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(reducers, composeEnhancers(applyMiddleware(thunk)));
@@ -32,7 +33,9 @@ const renderApp = () => {
     }
 };
 
-ReactDOM.render(<p>Loading...</p>, document.getElementById('root'));
+ReactDOM.render(
+    <LoadingOverlayWithStyle loading={true} loadingMessage='Loading'/>, 
+    document.getElementById('root'));
 
 auth.onAuthStateChanged(async (user) => {
     if (user) {
