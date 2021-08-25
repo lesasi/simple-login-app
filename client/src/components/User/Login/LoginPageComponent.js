@@ -37,7 +37,6 @@ const LoginPageComponent = () => {
 
     const [email, setEmail] = useState('nevinusa@gmail.com');
     const [password, setPassword] = useState('test1234');
-    console.log(__dirname)
     
     const dispatch = useDispatch();
 

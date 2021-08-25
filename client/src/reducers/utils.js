@@ -1,3 +1,5 @@
+const defaultLoadingMessage = 'Loading...';
+
 const initialState = {
     notifier: {
         new_message_toggle: false,
@@ -5,7 +7,7 @@ const initialState = {
         type: ''
     },
     loading: false,
-    loadingMessage: 'Loading...'
+    loadingMessage: defaultLoadingMessage
 };
 
 const utils = (state = initialState, action = {}) => {
@@ -34,7 +36,8 @@ const utils = (state = initialState, action = {}) => {
         case 'LOADING': {
             return {
                 ...state,
-                loading: true
+                loading: true,
+                loadingMessage: action.payload ? action.payload.loadingMessage : defaultLoadingMessage
             };
         }
         case 'LOADING_COMPLETE': {
