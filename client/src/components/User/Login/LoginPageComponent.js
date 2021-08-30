@@ -14,6 +14,7 @@ import { googlePopupSignIn } from '../../../actions/auth';
 import loginUserAction from '../../../actions/functions/loginUserAction';
 import { history } from '../../../routers';
 import CustomInput from '../../sub_components/CustomInput';
+import loginUserPopupAction from '../../../actions/functions/loginUserPopupAction';
 
 const useStyles = makeStyles((theme) => ({
     login: {
@@ -39,60 +40,20 @@ const LoginPageComponent = () => {
     const [password, setPassword] = useState('test1234');
     
     const dispatch = useDispatch();
-
-    const googleLoginSubmit = async () => {
-        try {
-            const { data, error } = await googlePopupSignIn();
-            if(error) {
-                throw new Error(error);
-            }
-            if(data.new_user) {
-                dispatch({
-                    type: 'SET_GOOGLE_TOKEN',
-                    payload: {
-                        token: data.googleId
-                    }
-                });
-                history.push('/create-user');
-            }else {
-                dispatch({
-                    type: 'INIT_USER',
-                    payload: {
-                        user: data.user
-                    }
-                });
-                dispatch({
-                    type: 'NEW_MESSAGE',
-                    payload: {
-                        message: 'Logged in!',
-                        type: 'SUCCESS'
-                    }
-                });
-            }         
-        } catch (error) {
-            dispatch({
-                type: 'NEW_MESSAGE',
-                payload: {
-                    message: 'Google login failed...',
-                    type: 'ERROR'
-                }
-            });
-        }
-        
-    }
     
     const reduxStates = useSelector((state) => {
         return {
             user: state.user,
         };
     });
-
+    
     const onSubmit = async (e) => {
         e.preventDefault();
         dispatch(loginUserAction(email, password));
-        // DEV
-        // setEmail('');
-        // setPassword('');
+    }
+    
+    const firebaseLoginSubmit = async (provider_name) => {
+        dispatch(loginUserPopupAction(provider_name));    
     }
 
     if(reduxStates.user.logged_in){
@@ -140,7 +101,7 @@ const LoginPageComponent = () => {
             <div className={classes.mid}>
                 <GoogleButton
                     className={classes.half}
-                    onClick={googleLoginSubmit}
+                    onClick={() => firebaseLoginSubmit('google')}
                     label="Login using Google"
                 />
             </div>

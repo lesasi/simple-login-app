@@ -10,7 +10,6 @@ import { history } from '../../../routers';
 import CustomInput from '../../sub_components/CustomInput';
 import createUserAction from '../../../actions/functions/createUserAction';
 
-
 const CreateUserCredentials = ({ classes }) => {
 
     const [email, setEmail] = useState('nevinusa@gmail.com');

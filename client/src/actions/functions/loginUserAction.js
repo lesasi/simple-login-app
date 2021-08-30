@@ -6,9 +6,9 @@ const loginUserAction = (email, password) => async (dispatch, getState) => {
         dispatch({
             type: 'LOADING'
         });
-        const { fireBaseToken } = await firebaseLogin(email, password);
+        const { firebaseToken } = await firebaseLogin(email, password);
         const { data } = await loginUser({
-            token: fireBaseToken
+            token: firebaseToken
         });
 
         dispatch({

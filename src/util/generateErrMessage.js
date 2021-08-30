@@ -8,6 +8,7 @@ const handleEdgeCases = (message, key="") => {
         return `${key} already exists`
     }
     if(message.includes('verifyIdToken')) {
+        console.log(message)
         return `Login failed, try again`;
     }
     return message;

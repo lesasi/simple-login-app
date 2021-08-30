@@ -7,7 +7,6 @@ const changePasswordAction = (old_password, new_password) => async (dispatch, ge
             type: 'LOADING'
         });
 
-        console.log('fff')
         const result = await firebaseChangePassword(old_password, new_password);
         
         dispatch({

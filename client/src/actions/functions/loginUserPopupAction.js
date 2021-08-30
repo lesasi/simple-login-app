@@ -1,25 +1,24 @@
-import { createNewFirebaseUser } from "../auth";
-import { createUser } from "../crud-user";
 import { history } from "../../routers";
+import { firebaseSignInWithPopup } from "../auth";
+import { loginUser } from "../crud-user";
 
-const createUserAction = (email, password) => async (dispatch, getState) => {
+const loginUserPopupAction = (provider_name) => async (dispatch, getState) => {
     try {
         dispatch({
             type: 'LOADING'
         });
 
-        const { firebaseToken } = await createNewFirebaseUser(email, password);
-        const { data } = await createUser({
-            email,
-            token: firebaseToken
-        });
+        const { firebaseToken } = await firebaseSignInWithPopup(provider_name);
+        // const { data } = await loginUser({
+        //     token: firebaseToken
+        // });
 
-        dispatch({
-            type: 'INIT_USER',
-            payload: {
-                user: data.user
-            }
-        });
+        // dispatch({
+        //     type: 'INIT_USER',
+        //     payload: {
+        //         user: data.user
+        //     }
+        // });
 
         dispatch({
             type: 'LOADING_COMPLETE'
@@ -49,4 +48,4 @@ const createUserAction = (email, password) => async (dispatch, getState) => {
     }
 };
 
-export default createUserAction;
+export default loginUserPopupAction;

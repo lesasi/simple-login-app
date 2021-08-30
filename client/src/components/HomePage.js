@@ -161,17 +161,12 @@ const HomePage = () => {
                 </CardContent>
                 <div className={classes.mid}>
                     <Typography color="textSecondary" variant="subtitle2" gutterBottom>
-                        Want to connect your google account?
+                        Want to link any of your other accounts?
                     </Typography>
                     <GoogleButton
                         className={classes.half}
                         onClick={setGoogleEmailSubmit}
-                        disabled={!!auth.currentUser}
-                        label={
-                            !!auth.currentUser ? 
-                                'Logged in to Google':
-                                'Sign in to Google'
-                        }
+                        label="Sign in to Google"
                     >
                         Hello
                     </GoogleButton>

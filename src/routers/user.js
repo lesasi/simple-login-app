@@ -105,6 +105,20 @@ router.post('/logout/all', auth, async (req, res) => {
     } 
 });
 
+// delete a firebase account alone - using token
+router.post('/users/firebaseDelete', async (req, res) => {
+    try {
+        const token = req.body.token;
+        const result = await firebase.auth().verifyIdToken(token);
+        
+        // delete from google auth
+        await firebase.auth().deleteUser(result.uid);
+        res.send({ success: true });
+    } catch (error) {
+        return res.status(400).send(error);
+    } 
+});
+
 // FIX
 router.post('/users/me/delete', auth, async (req, res) => {
     try {
