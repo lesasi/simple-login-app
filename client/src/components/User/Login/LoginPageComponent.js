@@ -56,10 +56,6 @@ const LoginPageComponent = () => {
         dispatch(loginUserPopupAction(provider_name));    
     }
 
-    if(reduxStates.user.logged_in){
-        return <Redirect to="/"/>;
-    }
-
     return(
         <div className={classes.login}> 
             <Typography component="h1" variant="h5" className={classes.mid}>

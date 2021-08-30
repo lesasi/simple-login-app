@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
-import { createNewFirebaseUser } from '../../../actions/auth';
+import { firebaseCreateUser } from '../../../actions/auth';
 import { createUser } from '../../../actions/crud-user';
 import { history } from '../../../routers';
 import CustomInput from '../../sub_components/CustomInput';

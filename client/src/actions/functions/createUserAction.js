@@ -1,4 +1,4 @@
-import { createNewFirebaseUser } from "../auth";
+import { firebaseCreateUser } from "../auth";
 import { createUser } from "../crud-user";
 import { history } from "../../routers";
 
@@ -8,7 +8,7 @@ const createUserAction = (email, password) => async (dispatch, getState) => {
             type: 'LOADING'
         });
 
-        const { firebaseToken } = await createNewFirebaseUser(email, password);
+        const { firebaseToken } = await firebaseCreateUser(email, password);
         const { data } = await createUser({
             email,
             token: firebaseToken

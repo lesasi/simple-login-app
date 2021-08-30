@@ -15,7 +15,8 @@ import { firebaseLogout, setGoogleEmail } from '../actions/auth';
 import { deleteUser, logoutUser } from '../actions/crud-user';
 import { history } from '../routers';
 import CustomDialog from './sub_components/CustomDialog';
-import { auth } from '../utils/firebase-config';
+import { auth, providers } from '../utils/firebase-config';
+import linkUserProviderAction from '../actions/functions/linkUserProviderAction';
 
 const useStyles = makeStyles((theme) => ({
     home: {
@@ -104,26 +105,9 @@ const HomePage = () => {
         history.push('/login');
     }
 
-    const setGoogleEmailSubmit = async (e) => {
+    const linkProvider = async (e, provider_name) => {
         e.preventDefault();
-        const { data, error } = await setGoogleEmail();
-        if(error) {
-            dispatch({
-                type: 'NEW_MESSAGE',
-                payload: {
-                    message: 'Google integration failed!',
-                    type: 'ERROR'
-                }
-            });
-            return;
-        }
-        dispatch({
-            type: 'NEW_MESSAGE',
-            payload: {
-                message: 'Google integration successful!',
-                type: 'SUCCESS'
-            }
-        });
+        dispatch(linkUserProviderAction(provider_name));
     }
 
     return(
@@ -165,7 +149,7 @@ const HomePage = () => {
                     </Typography>
                     <GoogleButton
                         className={classes.half}
-                        onClick={setGoogleEmailSubmit}
+                        onClick={(e) => linkProvider(e, 'google')}
                         label="Sign in to Google"
                     >
                         Hello

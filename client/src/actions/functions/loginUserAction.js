@@ -25,7 +25,7 @@ const loginUserAction = (email, password) => async (dispatch, getState) => {
         dispatch({
             type: 'NEW_MESSAGE',
             payload: {
-                message: 'Logged in!',
+                message: 'Logged in successfully!',
                 type: 'SUCCESS'
             }
         });

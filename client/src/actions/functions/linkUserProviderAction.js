@@ -1,8 +1,7 @@
 import { history } from "../../routers";
-import { firebaseSignInWithPopup } from "../auth";
-import { loginUser } from "../crud-user";
+import { firebaseLinkProviderWithPopup } from "../auth";
 
-const loginUserPopupAction = (provider_name) => async (dispatch, getState) => {
+const linkUserProviderAction = (provider_name) => async (dispatch, getState) => {
     try {
         dispatch({
             type: 'LOADING',
@@ -11,38 +10,23 @@ const loginUserPopupAction = (provider_name) => async (dispatch, getState) => {
             }
         });
 
-        const { firebaseToken } = await firebaseSignInWithPopup(provider_name);
-
-        dispatch({
-            type: 'LOADING'
-        });
-
-        const { data } = await loginUser({
-            token: firebaseToken
-        });
-
-        dispatch({
-            type: 'INIT_USER',
-            payload: {
-                user: data.user
-            }
-        });
-
+        const { user } = await firebaseLinkProviderWithPopup(provider_name);
+        
         dispatch({
             type: 'LOADING_COMPLETE'
         });
-        
+
         dispatch({
             type: 'NEW_MESSAGE',
             payload: {
-                message: 'Logged in successfully!',
+                message: 'Provider linked successfully!',
                 type: 'SUCCESS'
             }
         });
-        // Redirect to home page
-        history.push('/');
+
     } catch (error) {
         const err_message = error.message;
+        console.log(error)
         dispatch({
             type: 'LOADING_COMPLETE'
         });
@@ -56,4 +40,4 @@ const loginUserPopupAction = (provider_name) => async (dispatch, getState) => {
     }
 };
 
-export default loginUserPopupAction;
+export default linkUserProviderAction;

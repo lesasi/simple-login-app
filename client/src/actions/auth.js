@@ -1,7 +1,7 @@
 import { auth, firebase, providers } from '../utils/firebase-config';
 import { axiosObj } from '../utils/axios';
 
-export const createNewFirebaseUser = async (email, password) => {
+export const firebaseCreateUser = async (email, password) => {
     try {
         const user = await auth.createUserWithEmailAndPassword(email, password);
         // const firebaseToken = user.credential.idToken;
@@ -80,20 +80,17 @@ export const firebaseChangePassword = async (old_password, new_password) => {
     }
 }
 
-// change
-export const googlePopupSignIn = async () => {
+export const firebaseLinkProviderWithPopup = async (provider_name='google') => {
     try {
-        const result = await auth.signInWithPopup(providers['google']);
-        const token = await auth?.currentUser?.getIdToken(true);
-        const response = await axiosObj.post('/googleLogin', {
-            token
-        });
-        return { data: response.data }
+        const user = auth?.currentUser;
+        const result = await user.linkWithPopup(providers[provider_name]);
+        return { user: result.user };
     } catch (error) {
-        return { error: error.message }
+        throw new Error(error.message);
     }
-};
+}
 
+// FIX
 export const setGoogleEmail = async () => {
     try {
         if(auth.currentUser) {
