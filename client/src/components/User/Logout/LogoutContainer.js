@@ -31,7 +31,6 @@ const LogoutContainer = () => {
         <div>
             <ColorButton
                 variant="contained"
-                color="secondary"
                 onClick={logoutUserFn}
             >
                 Logout

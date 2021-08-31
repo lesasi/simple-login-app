@@ -11,13 +11,9 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
-import { firebaseLogout, setGoogleEmail } from '../actions/auth';
-import { deleteUser, logoutUser } from '../actions/crud-user';
-import { history } from '../routers';
-import CustomDialog from './sub_components/CustomDialog';
-import { auth, providers } from '../utils/firebase-config';
 import linkUserProviderAction from '../actions/functions/linkUserProviderAction';
 import LogoutContainer from './User/Logout/LogoutContainer';
+import DeleteUserContainer from './User/Delete/DeleteUserContainer';
 
 const useStyles = makeStyles((theme) => ({
     home: {
@@ -50,43 +46,13 @@ const HomePage = () => {
     const dispatch = useDispatch();
     const classes = useStyles();
 
-    const [loading, setLoading] = useState(false);
     const [disableGoogle, setDisableGoogle] = useState(false);
-    const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
 
     const reduxStates = useSelector((state) => {
         return {
             user: state.user
         };
-    });   
-
-    const deleteUserSubmit = async (e) => {
-        e.preventDefault();
-        // prompt to ask whether to confirm deletion
-        const { data, error } = await deleteUser();
-        if(error){
-            console.log(error);
-            dispatch({
-                type: 'NEW_MESSAGE',
-                payload: {
-                    message: 'Unable to delete user!',
-                    type: 'ERROR'
-                }
-            });
-            return;
-        }
-        dispatch({
-            type: 'LOGOUT'
-        });
-        dispatch({
-            type: 'NEW_MESSAGE',
-            payload: {
-                message: 'Deleted user!',
-                type: 'SUCCESS'
-            }
-        });
-        history.push('/login');
-    }
+    });
 
     const linkProvider = async (e, provider_name) => {
         e.preventDefault();
@@ -97,16 +63,14 @@ const HomePage = () => {
         <div className={classes.home}>
             <div className="titlebar">
                 <Link className='link' to='/edit-user'>
-                    <div className="edit-user title-button link">
+                    <Button
+                        color="primary"
+                        variant="contained"
+                    >
                         Edit user
-                    </div>
+                    </Button>
                 </Link>
-                <div 
-                    className="logout title-button link"
-                    onClick={() => setOpenDeleteDialog(true)}
-                >
-                    Delete User
-                </div>
+                <DeleteUserContainer />
                 <LogoutContainer />
             </div>
             <Card className={classes.root} variant="outlined">
@@ -136,17 +100,7 @@ const HomePage = () => {
                         Hello
                     </GoogleButton>
                 </div>
-                
             </Card>
-            <CustomDialog 
-                title='Delete account?'
-                content='Are you sure you want to delete this account? It will be lost forever'
-                denyMessage='No'
-                acceptFunction={deleteUserSubmit}
-                acceptMessage='Yes'
-                open={openDeleteDialog}
-                setOpen={setOpenDeleteDialog}
-            />
         </div>
     );
 };
