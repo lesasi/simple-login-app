@@ -14,6 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import linkUserProviderAction from '../actions/functions/linkUserProviderAction';
 import LogoutContainer from './User/Logout/LogoutContainer';
 import DeleteUserContainer from './User/Delete/DeleteUserContainer';
+import GoogleProviderButton from './User/Providers/Google/GoogleProviderButton';
 
 const useStyles = makeStyles((theme) => ({
     home: {
@@ -92,13 +93,11 @@ const HomePage = () => {
                     <Typography color="textSecondary" variant="subtitle2" gutterBottom>
                         Want to link any of your other accounts?
                     </Typography>
-                    <GoogleButton
+                    <GoogleProviderButton
                         className={classes.half}
                         onClick={(e) => linkProvider(e, 'google')}
-                        label="Sign in to Google"
-                    >
-                        Hello
-                    </GoogleButton>
+                        label="Link Google account"
+                    />
                 </div>
             </Card>
         </div>

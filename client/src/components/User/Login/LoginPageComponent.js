@@ -5,16 +5,13 @@ import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import GoogleButton from 'react-google-button'; 
 
-import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
-
-import { googlePopupSignIn } from '../../../actions/auth';
 import loginUserAction from '../../../actions/functions/loginUserAction';
-import { history } from '../../../routers';
-import CustomInput from '../../sub_components/CustomInput';
 import loginUserPopupAction from '../../../actions/functions/loginUserPopupAction';
+import CustomInput from '../../sub_components/CustomInput';
+import GoogleProviderButton from '../Providers/Google/GoogleProviderButton';
 
 const useStyles = makeStyles((theme) => ({
     login: {
@@ -95,8 +92,7 @@ const LoginPageComponent = () => {
                 </Link>
             </div>
             <div className={classes.mid}>
-                <GoogleButton
-                    className={classes.half}
+                <GoogleProviderButton
                     onClick={() => firebaseLoginSubmit('google')}
                     label="Login using Google"
                 />
