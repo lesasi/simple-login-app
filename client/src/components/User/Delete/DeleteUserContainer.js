@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 
 import { Button } from '@material-ui/core';

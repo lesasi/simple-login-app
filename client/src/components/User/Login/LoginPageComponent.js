@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import GoogleButton from 'react-google-button'; 
 
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
@@ -33,16 +31,10 @@ const useStyles = makeStyles((theme) => ({
 const LoginPageComponent = () => {
     const classes = useStyles();
 
-    const [email, setEmail] = useState('nevinusa@gmail.com');
-    const [password, setPassword] = useState('test1234');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     
     const dispatch = useDispatch();
-    
-    const reduxStates = useSelector((state) => {
-        return {
-            user: state.user,
-        };
-    });
     
     const onSubmit = async (e) => {
         e.preventDefault();
