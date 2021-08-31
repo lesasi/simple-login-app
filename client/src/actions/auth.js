@@ -44,7 +44,6 @@ export const firebaseSignInWithPopup = async (provider_name='google') => {
         if(isNewUser || email === null) {
             await firebaseLogout();
             axiosObj.post('/users/firebaseDelete', { token: firebaseToken })
-                .then(() => console.log('User deleted'))
                 .catch(() => console.log('Error in deleting user'));
             throw new Error("User doesn't exist, or hasn't linked their account with the given provider. Please login another way.");
         }

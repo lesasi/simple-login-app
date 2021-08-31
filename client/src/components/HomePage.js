@@ -17,6 +17,7 @@ import { history } from '../routers';
 import CustomDialog from './sub_components/CustomDialog';
 import { auth, providers } from '../utils/firebase-config';
 import linkUserProviderAction from '../actions/functions/linkUserProviderAction';
+import LogoutContainer from './User/Logout/LogoutContainer';
 
 const useStyles = makeStyles((theme) => ({
     home: {
@@ -58,24 +59,6 @@ const HomePage = () => {
             user: state.user
         };
     });   
-
-    const logoutUserFn = async (e) => {
-        e.preventDefault();
-        try {
-            await firebaseLogout();
-            dispatch({
-                type: 'NEW_MESSAGE',
-                payload: {
-                    message: 'Logged out successfully!',
-                    type: 'SUCCESS'
-                }
-            });
-            history.push('/login')
-        } catch (error) {
-            console.log(error);
-            return;            
-        }
-    }
 
     const deleteUserSubmit = async (e) => {
         e.preventDefault();
@@ -124,9 +107,7 @@ const HomePage = () => {
                 >
                     Delete User
                 </div>
-                <div onClick={logoutUserFn} className="logout title-button">
-                    Logout
-                </div>
+                <LogoutContainer />
             </div>
             <Card className={classes.root} variant="outlined">
                 <CardContent>
