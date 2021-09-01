@@ -1,4 +1,4 @@
-const key_list = ['email', 'name', 'age', 'password']
+const key_list = ['email', 'name', 'age']
 
 const handleEdgeCases = (message, key="") => {
     if(message.includes('Cast to Number')) {
@@ -8,7 +8,6 @@ const handleEdgeCases = (message, key="") => {
         return `${key} already exists`
     }
     if(message.includes('verifyIdToken')) {
-        console.log(message)
         return `Login failed, try again`;
     }
     return message;

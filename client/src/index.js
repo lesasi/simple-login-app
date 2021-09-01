@@ -8,7 +8,6 @@ import thunk from 'redux-thunk';
 import reducers from './reducers';
 import { auth } from './utils/firebase-config';
 import { getUser, logoutUser } from './actions/crud-user';
-import { firebaseLogout } from './actions/auth';
 import AppRouter, { history } from './routers';
 
 import AppOverlay from './components/overlays';
@@ -34,8 +33,9 @@ const renderApp = () => {
 };
 
 ReactDOM.render(
-    <LoadingOverlayWithStyle loading={true} loadingMessage='Loading'/>, 
-    document.getElementById('root'));
+    <LoadingOverlayWithStyle loading={true} loadingMessage='Loading' />, 
+    document.getElementById('root')
+);
 
 auth.onAuthStateChanged(async (user) => {
     if (user) {
