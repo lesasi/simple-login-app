@@ -68,21 +68,6 @@ router.post('/users/me/edit', auth, async (req, res) => {
     }
 }); 
 
-// add google token to a user - FIX
-router.post('/setGoogleToken', auth, async (req, res) => {
-    try{
-        const token = req.body.token;
-        const result = await firebase.auth().verifyIdToken(token);
-        // set uid to user's firebaseId
-        req.user.firebaseId = result.uid;
-        await req.user.save();
-        res.send({ user: req.user })
-    }catch(error){
-        res.status(400).send({error: generateErrMessage(error.message)});
-    }
-});
-
-
 // log out of current account
 router.post('/logout', auth, async (req, res) => {
     try{
@@ -119,7 +104,6 @@ router.post('/users/firebaseDelete', async (req, res) => {
     } 
 });
 
-// FIX
 router.post('/users/me/delete', auth, async (req, res) => {
     try {
         await req.user.remove();

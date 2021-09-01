@@ -22,9 +22,12 @@ googleProvider.setCustomParameters({ prompt: 'select_account' });
 
 const emailProvider = firebase.auth.EmailAuthProvider;
 
+const facebookProvider = new firebase.auth.FacebookAuthProvider();
+
 const providers = {
     'google': googleProvider,
-    'email': emailProvider
+    'email': emailProvider,
+    'facebook': facebookProvider
 };
 
 

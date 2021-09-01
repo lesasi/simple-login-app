@@ -13,6 +13,7 @@ import linkUserProviderAction from '../actions/functions/linkUserProviderAction'
 import LogoutContainer from './User/Logout/LogoutContainer';
 import DeleteUserContainer from './User/Delete/DeleteUserContainer';
 import GoogleProviderButton from './User/Providers/Google/GoogleProviderButton';
+import FacebookProviderButton from './User/Providers/Facebook/FacebookProviderButton';
 
 const useStyles = makeStyles((theme) => ({
     home: {
@@ -95,6 +96,11 @@ const HomePage = () => {
                         className={classes.half}
                         onClick={(e) => linkProvider(e, 'google')}
                         label="Link Google account"
+                    />
+                    <FacebookProviderButton
+                        className={classes.half}
+                        onClick={(e) => linkProvider(e, 'facebook')}
+                        label="Link Facebook account"
                     />
                 </div>
             </Card>

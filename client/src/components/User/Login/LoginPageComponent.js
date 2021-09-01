@@ -10,6 +10,7 @@ import loginUserAction from '../../../actions/functions/loginUserAction';
 import loginUserPopupAction from '../../../actions/functions/loginUserPopupAction';
 import CustomInput from '../../sub_components/CustomInput';
 import GoogleProviderButton from '../Providers/Google/GoogleProviderButton';
+import FacebookProviderButton from '../Providers/Facebook/FacebookProviderButton';
 
 const useStyles = makeStyles((theme) => ({
     login: {
@@ -19,13 +20,17 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         marginTop: theme.spacing(2),
         marginBottom: theme.spacing(2),
-        justifyContent: 'center'
+        alignItems: 'center',
+        flexDirection: 'column'
     },
     side: {
         display: 'flex',
         marginTop: theme.spacing(2),
         justifyContent: 'flex-end'
-    }
+    },
+    half: {
+        width: '50%'
+    },
 }));
 
 const LoginPageComponent = () => {
@@ -85,8 +90,14 @@ const LoginPageComponent = () => {
             </div>
             <div className={classes.mid}>
                 <GoogleProviderButton
+                    className={classes.half}
                     onClick={() => firebaseLoginSubmit('google')}
                     label="Login using Google"
+                />
+                <FacebookProviderButton
+                    className={classes.half}
+                    onClick={() => firebaseLoginSubmit('facebook')}
+                    label="Login using Facebook"
                 />
             </div>
         </div>

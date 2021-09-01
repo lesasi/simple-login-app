@@ -13,7 +13,7 @@ export const firebaseCreateUser = async (email, password) => {
     } catch (error) {
         throw new Error(error.message);
     }
-}
+};
 
 export const firebaseLogin = async (email, password) => {
     try {
@@ -54,7 +54,7 @@ export const firebaseSignInWithPopup = async (provider_name='google') => {
     } catch (error) {
         throw new Error(error.message);
     }
-}
+};
 
 export const firebaseLogout = async () => {
     try{
@@ -77,7 +77,7 @@ export const firebaseChangePassword = async (old_password, new_password) => {
     } catch (error) {
         throw new Error(error.message);
     }
-}
+};
 
 export const firebaseLinkProviderWithPopup = async (provider_name='google') => {
     try {
@@ -86,22 +86,5 @@ export const firebaseLinkProviderWithPopup = async (provider_name='google') => {
         return { user: result.user };
     } catch (error) {
         throw new Error(error.message);
-    }
-}
-
-// FIX
-export const setGoogleEmail = async () => {
-    try {
-        if(auth.currentUser) {
-            return { data: auth.currentUser };
-        }
-        const result = await auth.signInWithPopup(providers['google']);
-        const token = await auth?.currentUser?.getIdToken(true);
-        const response = await axiosObj.post('/setGoogleToken', {
-            token
-        });
-        return { data: response.data }
-    } catch (error) {
-        return { error: error.message }
     }
 };
