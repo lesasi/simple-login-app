@@ -11,6 +11,7 @@ import loginUserPopupAction from '../../../actions/functions/loginUserPopupActio
 import CustomInput from '../../sub_components/CustomInput';
 import GoogleProviderButton from '../Providers/Google/GoogleProviderButton';
 import FacebookProviderButton from '../Providers/Facebook/FacebookProviderButton';
+import GithubProviderButton from '../Providers/Github/GithubProviderButton';
 
 const useStyles = makeStyles((theme) => ({
     login: {
@@ -98,6 +99,11 @@ const LoginPageComponent = () => {
                     className={classes.half}
                     onClick={() => firebaseLoginSubmit('facebook')}
                     label="Login using Facebook"
+                />
+                <GithubProviderButton
+                    className={classes.half}
+                    onClick={() => firebaseLoginSubmit('github')}
+                    label="Login using GitHub"
                 />
             </div>
         </div>

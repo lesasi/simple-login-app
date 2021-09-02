@@ -24,10 +24,13 @@ const emailProvider = firebase.auth.EmailAuthProvider;
 
 const facebookProvider = new firebase.auth.FacebookAuthProvider();
 
+const githubProvider = new firebase.auth.GithubAuthProvider();
+
 const providers = {
     'google': googleProvider,
     'email': emailProvider,
-    'facebook': facebookProvider
+    'facebook': facebookProvider,
+    'github': githubProvider,
 };
 
 

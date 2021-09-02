@@ -14,6 +14,7 @@ import LogoutContainer from './User/Logout/LogoutContainer';
 import DeleteUserContainer from './User/Delete/DeleteUserContainer';
 import GoogleProviderButton from './User/Providers/Google/GoogleProviderButton';
 import FacebookProviderButton from './User/Providers/Facebook/FacebookProviderButton';
+import GithubProviderButton from './User/Providers/Github/GithubProviderButton';
 
 const useStyles = makeStyles((theme) => ({
     home: {
@@ -101,6 +102,11 @@ const HomePage = () => {
                         className={classes.half}
                         onClick={(e) => linkProvider(e, 'facebook')}
                         label="Link Facebook account"
+                    />
+                    <GithubProviderButton
+                        className={classes.half}
+                        onClick={(e) => linkProvider(e, 'github')}
+                        label="Link GitHub account"
                     />
                 </div>
             </Card>
